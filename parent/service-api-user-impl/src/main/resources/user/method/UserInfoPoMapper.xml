@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eason.api.dao.UserInfoPoMapper" >
+  <resultMap id="BaseResultMap" type="model.user.UserInfoPo" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="nickName" property="nickname" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="CHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="trade" property="trade" jdbcType="VARCHAR" />
+    <result column="profession" property="profession" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="is_vip" property="isVip" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, phone, password, logo, nickName, gender, area, trade, profession, introduction, 
+    is_vip, create_time, update_time, create_by, update_by, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_info
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.eason.api.po.user.UserInfoPo" useGeneratedKeys="true" keyProperty="userId">
+    insert into user_info (user_id, phone, password, 
+      logo, nickName, gender, 
+      area, trade, profession, 
+      introduction, is_vip, create_time, 
+      update_time, create_by, update_by, 
+      STATUS)
+    values (#{userId,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{logo,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, 
+      #{area,jdbcType=VARCHAR}, #{trade,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, 
+      #{introduction,jdbcType=VARCHAR}, #{isVip,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.eason.api.po.user.UserInfoPo" useGeneratedKeys="true" keyProperty="userId">
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="nickname != null" >
+        nickName,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="trade != null" >
+        trade,
+      </if>
+      <if test="profession != null" >
+        profession,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+      <if test="isVip != null" >
+        is_vip,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=CHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="trade != null" >
+        #{trade,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null" >
+        #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="isVip != null" >
+        #{isVip,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.eason.api.po.user.UserInfoPo" >
+    update user_info
+    <set >
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickName = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=CHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="trade != null" >
+        trade = #{trade,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null" >
+        profession = #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="isVip != null" >
+        is_vip = #{isVip,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.eason.api.po.user.UserInfoPo" >
+    update user_info
+    set phone = #{phone,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      nickName = #{nickname,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=CHAR},
+      area = #{area,jdbcType=VARCHAR},
+      trade = #{trade,jdbcType=VARCHAR},
+      profession = #{profession,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      is_vip = #{isVip,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=TINYINT}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <select id="getUserByAccount" parameterType="com.eason.api.po.user.UserInfoPo" resultMap="BaseResultMap">
+		SELECT 
+		  <include refid="Base_Column_List" />
+		FROM
+		  `user_info` 
+		<where>
+			<if test="userId != null">
+				 AND user_id=#{userId}
+			</if>
+			<if test="phone != null">
+				 AND phone=#{phone}
+			</if>
+			<if test="password != null">
+				 AND PASSWORD=#{password}
+			</if>
+		</where>	
+		order by create_time desc
+	</select>
+	
+	<!--<select id="getUserDetail" parameterType="com.eason.api.po.user.UserInfoPo" resultType="view.user.UserDetailVo">-->
+		<!--SELECT -->
+		  <!--t_user.`user_id` AS userId,-->
+		  <!--t_user.`phone`,-->
+		  <!--t_user.`logo`,-->
+		  <!--t_user.`nickName`,-->
+		  <!--t_user.`gender`,-->
+		  <!--t_user.`score`,-->
+		  <!--t_user.`is_vip` AS isVip,-->
+		  <!--t_user.`status`,-->
+		  <!--t_cargo_author.`status` AS cargoAuthor,-->
+		  <!--t_car_author.`status` AS carAuthor,-->
+		  <!--user_ta.`ta_balance` AS amount-->
+		<!--FROM-->
+		  <!--`user_info` t_user-->
+		<!--LEFT OUTER JOIN t_cargo_author ON t_cargo_author.`user_id`=t_user.`user_id`-->
+		<!--LEFT OUTER JOIN t_car_author ON t_car_author.`user_id`=t_user.`user_id`-->
+		<!--LEFT OUTER JOIN user_ta ON t_user.`user_id`=user_ta.`user_id` -->
+		<!--<where>-->
+			<!--<if test="userId != null">-->
+				 <!--AND t_user.user_id=#{userId}-->
+			<!--</if>-->
+			<!--<if test="phone != null">-->
+				 <!--AND t_user.phone=#{phone}-->
+			<!--</if>-->
+			<!--<if test="password != null">-->
+				 <!--AND t_user.PASSWORD=#{password}-->
+			<!--</if>-->
+		<!--</where>	-->
+		<!--order by t_user.create_time desc-->
+	<!--</select>-->
+</mapper>

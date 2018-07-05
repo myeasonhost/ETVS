@@ -16,6 +16,8 @@
         <option value="$PROJECT_DIR$/socket-server/pom.xml" />
         <option value="$PROJECT_DIR$/service-admin/pom.xml" />
         <option value="$PROJECT_DIR$/zb-live-media/pom.xml" />
+        <option value="$PROJECT_DIR$/service-api-user/pom.xml" />
+        <option value="$PROJECT_DIR$/service-api-user-impl/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

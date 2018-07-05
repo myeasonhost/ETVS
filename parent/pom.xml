@@ -11,6 +11,7 @@
     <modules>
         <module>service-api-zb</module>
         <module>service-api-common</module>
+        <module>service-api-user-impl</module>
         <module>service-api-zb-impl</module>
         <module>service-scheduler</module>
         <module>service-feign</module>

@@ -8,6 +8,8 @@
       <module fileurl="file://$PROJECT_DIR$/parent.iml" filepath="$PROJECT_DIR$/parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-admin/service-admin.iml" filepath="$PROJECT_DIR$/service-admin/service-admin.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-api-common/service-api-common.iml" filepath="$PROJECT_DIR$/service-api-common/service-api-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-api-user/service-api-user.iml" filepath="$PROJECT_DIR$/service-api-user/service-api-user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-api-user-impl/service-api-user-impl.iml" filepath="$PROJECT_DIR$/service-api-user-impl/service-api-user-impl.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-api-wx-impl/service-api-wx-impl.iml" filepath="$PROJECT_DIR$/service-api-wx-impl/service-api-wx-impl.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-api-zb/service-api-zb.iml" filepath="$PROJECT_DIR$/service-api-zb/service-api-zb.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-api-zb-impl/service-api-zb-impl.iml" filepath="$PROJECT_DIR$/service-api-zb-impl/service-api-zb-impl.iml" />
