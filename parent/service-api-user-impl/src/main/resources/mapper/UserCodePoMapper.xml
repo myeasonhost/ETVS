@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.eason.api.mapper.UserCodeMapper">
+<mapper namespace="com.eason.api.mapper.UserCodePoMapper">
 
 	<!--新增验证码 -->
 	<insert  id="insertUserCode" parameterType="com.eason.api.po.user.UserCodePo" useGeneratedKeys="true" keyProperty="id">
@@ -15,7 +15,7 @@
 		  `mac`,
 		  `state`,
 		  `update_time`
-		) 
+		)
 		VALUES
 		  (
 		    #{userId},
@@ -26,12 +26,12 @@
 		    #{mac},
 		    #{state},
 		    now()
-		  ) 
+		  )
 	</insert>
-	
+
 	<!--根据主键获取验证码 -->
 	<select id="getUserCodeByModel" parameterType="com.eason.api.po.user.UserCodePo" resultType="com.eason.api.po.user.UserCodePo">
-		select 
+		select
 		  `id`,
 		  `user_id` as userId,
 		  `code`,
@@ -60,11 +60,11 @@
 			</if>
 		</where>
 	</select>
-	
+
 	<!-- 根据主键更新验证码 -->
 	<update id="updateUserCodeByPhone" parameterType="com.eason.api.po.user.UserCodePo">
 		update 	user_validation_code
-		set 
+		set
 			<if test="code != null">
 				code = #{code},
 			</if>
@@ -82,9 +82,9 @@
 			</if>
 		where id = #{id}
 	</update>
-	
+
 	<update id="updateModelById" parameterType="com.eason.api.po.user.UserCodePo">
-		UPDATE 
+		UPDATE
 			user_validation_code
 		<set>
 			<if test="userId != null">
@@ -112,10 +112,10 @@
 				MAC = #{mac}
 			</if>
 		</set>
-		WHERE 
+		WHERE
 			ID = #{id}
 	</update>
-	
+
 	<!-- 获取用户当日发送验证码的次数(重置密码) -->
 	<select id="getCountForDay" resultType="int" parameterType="java.util.HashMap">
 	   select count(1) from user_validation_code where phone = #{phone} and send_time >=#{daytime} and type = #{type}
@@ -134,7 +134,7 @@
 	</select>
 	<!-- 根据用户手机查询最后一次发送的验证码 -->
 	<select id="findLastCode" parameterType="java.util.HashMap" resultType="com.eason.api.po.user.UserCodePo">
-		select 
+		select
 		  `id`,
 		  `user_id` as userId,
 		  `code`,
@@ -146,7 +146,7 @@
 		  `update_time` as updateTime
 		from user_validation_code
 		<where>
-			1=1 
+			1=1
 			<if test="phone != null">
 				AND phone = #{phone}
 			</if>
@@ -156,23 +156,23 @@
 			<if test="userId != null">
 				AND user_id = #{userId}
 			</if>
-		</where>	
+		</where>
 		order by send_time  desc limit 1;
 	</select>
-	
+
 	<!-- 获取最新手机号修改验证码 -->
 	<select id="getNewPhoneUpCode" parameterType="String" resultType="String">
 		select code from user_validation_code where phone = #{phone} and type = 3 order by send_time  desc limit 1;
 	</select>
-	
+
 	<!--获取当日获取手机号修改验证码次数 -->
 	<select id="getPhoneChangeCount" parameterType="String" resultType="int">
 		select count(1) from user_validation_code where phone = #{phone} and type = 3 and date(send_time) = CURDATE() ;
 	</select>
-	
+
 	<select id="getListByModel" parameterType="com.eason.api.po.user.UserCodePo" resultType="com.eason.api.po.user.UserCodePo">
-		SELECT ID,USER_ID,CODE,TYPE,SEND_TIME,PHONE,MAC,STATE,UPDATE_TIME 
-		FROM user_validation_code 
+		SELECT ID,USER_ID,CODE,TYPE,SEND_TIME,PHONE,MAC,STATE,UPDATE_TIME
+		FROM user_validation_code
 		<where>
 			<if test="id != null">
 				AND ID = #{id}

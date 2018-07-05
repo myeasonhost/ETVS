@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author eason
  */
-public interface UserCodeMapper{
+public interface UserCodePoMapper {
 
 	/**
 	 * Description:根据用户手机等参数查询此手机当日发送验证码的次数
@@ -56,34 +56,34 @@ public interface UserCodeMapper{
 	 * Description:根据Model来获取对象UserCodePo
 	 */
     public List<UserCodePo> getListByModel(UserCodePo obj);
-    
+
 	/**
 	 * Description:新增对象UserCodePo
 	 */
     public int insertUserCode(UserCodePo obj);
-    
+
 	/**
 	 * Description:根据ID更新对象UserCodePo
 	 *        只更新不为空的字段
 	 */
 	public int updateModelById(UserCodePo obj);
-    
+
 	/**
 	 * Description:删除对象
 	 */
 	public int deleteById(Integer id);
-	
+
 	/**
 	 * FunName:getNewPhoneUpCode
 	 * Description:获取最新手机号修改验证码信息
 	 */
 	public UserCodePo getNewPhoneUpCode(String phone);
-	
+
 	/**
 	 * Description:修改手机号当天验证码获取次数
 	 */
 	public int getPhoneChangeCount(String phone);
-	
-	
-	
+
+
+
 }

@@ -1,6 +1,7 @@
 package com.eason.api.mapper;
 
 import com.eason.api.po.user.VerifyCodeLogPo;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
 import java.util.List;

@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.eason.api.mapper.VerifyCodeLogMapper">
 
-	<resultMap id="UserVerifyCodeBaseResult" type="model.user.VerifyCodeLogPo">
+	<resultMap id="UserVerifyCodeBaseResult" type="com.eason.api.po.user.VerifyCodeLogPo">
     	<result column="ID" property="id"/>
     	<result column="PHONE" property="phone"/>
     	<result column="VERTIME" property="verTime"/>

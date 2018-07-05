@@ -1,6 +1,7 @@
 package com.eason.api.mapper;
 
 import com.eason.api.po.user.UserDeviceInfoPo;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * UserDeviceInfoDAO接口

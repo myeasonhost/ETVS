@@ -1,273 +1,389 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.eason.api.mapper.UserInfoPoMapper" >
-  <resultMap id="BaseResultMap" type="model.user.UserInfoPo" >
-    <id column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
+  <resultMap id="BaseResultMap" type="com.eason.api.po.user.UserInfoPo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="logo" property="logo" jdbcType="VARCHAR" />
-    <result column="nickName" property="nickname" jdbcType="VARCHAR" />
-    <result column="gender" property="gender" jdbcType="CHAR" />
-    <result column="area" property="area" jdbcType="VARCHAR" />
-    <result column="trade" property="trade" jdbcType="VARCHAR" />
-    <result column="profession" property="profession" jdbcType="VARCHAR" />
-    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
-    <result column="is_vip" property="isVip" jdbcType="CHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
-    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
-    <result column="STATUS" property="status" jdbcType="TINYINT" />
+    <result column="deposit" property="deposit" jdbcType="DECIMAL" />
+    <result column="phone" property="phone" jdbcType="CHAR" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="signature" property="signature" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="constellation" property="constellation" jdbcType="SMALLINT" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="SMALLINT" />
+    <result column="sex" property="sex" jdbcType="SMALLINT" />
+    <result column="vip" property="vip" jdbcType="SMALLINT" />
+    <result column="ex_vip_time" property="exVipTime" jdbcType="TIMESTAMP" />
+    <result column="role" property="role" jdbcType="SMALLINT" />
+    <result column="signage" property="signage" jdbcType="CHAR" />
+    <result column="points" property="points" jdbcType="DECIMAL" />
+    <result column="re_signage" property="reSignage" jdbcType="INTEGER" />
+    <result column="is_mute" property="isMute" jdbcType="INTEGER" />
+    <result column="salt" property="salt" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="exp" property="exp" jdbcType="BIGINT" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="car_id" property="carId" jdbcType="INTEGER" />
+    <result column="ex_car_time" property="exCarTime" jdbcType="TIMESTAMP" />
+    <result column="api_token" property="apiToken" jdbcType="VARCHAR" />
+    <result column="channel" property="channel" jdbcType="VARCHAR" />
+    <result column="os" property="os" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    user_id, phone, password, logo, nickName, gender, area, trade, profession, introduction, 
-    is_vip, create_time, update_time, create_by, update_by, STATUS
+    id, username, nickname, password, deposit, phone, birthday, signature, avatar, constellation, 
+    location, level, sex, vip, ex_vip_time, role, signage, points, re_signage, is_mute, 
+    salt, status, exp, created_at, updated_at, car_id, ex_car_time, api_token, channel, 
+    os
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from user_info
-    where user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user_info
-    where user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.eason.api.po.user.UserInfoPo" useGeneratedKeys="true" keyProperty="userId">
-    insert into user_info (user_id, phone, password, 
-      logo, nickName, gender, 
-      area, trade, profession, 
-      introduction, is_vip, create_time, 
-      update_time, create_by, update_by, 
-      STATUS)
-    values (#{userId,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{logo,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, 
-      #{area,jdbcType=VARCHAR}, #{trade,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, 
-      #{introduction,jdbcType=VARCHAR}, #{isVip,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT})
+  <insert id="insert" parameterType="com.eason.api.po.user.UserInfoPo" >
+    insert into user_info (id, username, nickname, 
+      password, deposit, phone, 
+      birthday, signature, avatar, 
+      constellation, location, level, 
+      sex, vip, ex_vip_time, 
+      role, signage, points, 
+      re_signage, is_mute, salt, 
+      status, exp, created_at, 
+      updated_at, car_id, ex_car_time, 
+      api_token, channel, os
+      )
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{deposit,jdbcType=DECIMAL}, #{phone,jdbcType=CHAR}, 
+      #{birthday,jdbcType=DATE}, #{signature,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
+      #{constellation,jdbcType=SMALLINT}, #{location,jdbcType=VARCHAR}, #{level,jdbcType=SMALLINT}, 
+      #{sex,jdbcType=SMALLINT}, #{vip,jdbcType=SMALLINT}, #{exVipTime,jdbcType=TIMESTAMP}, 
+      #{role,jdbcType=SMALLINT}, #{signage,jdbcType=CHAR}, #{points,jdbcType=DECIMAL}, 
+      #{reSignage,jdbcType=INTEGER}, #{isMute,jdbcType=INTEGER}, #{salt,jdbcType=CHAR}, 
+      #{status,jdbcType=TINYINT}, #{exp,jdbcType=BIGINT}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP}, #{carId,jdbcType=INTEGER}, #{exCarTime,jdbcType=TIMESTAMP}, 
+      #{apiToken,jdbcType=VARCHAR}, #{channel,jdbcType=VARCHAR}, #{os,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.eason.api.po.user.UserInfoPo" useGeneratedKeys="true" keyProperty="userId">
+  <insert id="insertSelective" parameterType="com.eason.api.po.user.UserInfoPo" >
     insert into user_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
-        user_id,
+      <if test="id != null" >
+        id,
       </if>
-      <if test="phone != null" >
-        phone,
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="nickname != null" >
+        nickname,
       </if>
       <if test="password != null" >
         password,
       </if>
-      <if test="logo != null" >
-        logo,
+      <if test="deposit != null" >
+        deposit,
       </if>
-      <if test="nickname != null" >
-        nickName,
+      <if test="phone != null" >
+        phone,
       </if>
-      <if test="gender != null" >
-        gender,
+      <if test="birthday != null" >
+        birthday,
       </if>
-      <if test="area != null" >
-        area,
+      <if test="signature != null" >
+        signature,
       </if>
-      <if test="trade != null" >
-        trade,
+      <if test="avatar != null" >
+        avatar,
       </if>
-      <if test="profession != null" >
-        profession,
+      <if test="constellation != null" >
+        constellation,
       </if>
-      <if test="introduction != null" >
-        introduction,
+      <if test="location != null" >
+        location,
       </if>
-      <if test="isVip != null" >
-        is_vip,
+      <if test="level != null" >
+        level,
       </if>
-      <if test="createTime != null" >
-        create_time,
+      <if test="sex != null" >
+        sex,
       </if>
-      <if test="updateTime != null" >
-        update_time,
+      <if test="vip != null" >
+        vip,
       </if>
-      <if test="createBy != null" >
-        create_by,
+      <if test="exVipTime != null" >
+        ex_vip_time,
       </if>
-      <if test="updateBy != null" >
-        update_by,
+      <if test="role != null" >
+        role,
+      </if>
+      <if test="signage != null" >
+        signage,
+      </if>
+      <if test="points != null" >
+        points,
+      </if>
+      <if test="reSignage != null" >
+        re_signage,
+      </if>
+      <if test="isMute != null" >
+        is_mute,
+      </if>
+      <if test="salt != null" >
+        salt,
       </if>
       <if test="status != null" >
-        STATUS,
+        status,
+      </if>
+      <if test="exp != null" >
+        exp,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
+      </if>
+      <if test="updatedAt != null" >
+        updated_at,
+      </if>
+      <if test="carId != null" >
+        car_id,
+      </if>
+      <if test="exCarTime != null" >
+        ex_car_time,
+      </if>
+      <if test="apiToken != null" >
+        api_token,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="os != null" >
+        os,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
-        #{userId,jdbcType=INTEGER},
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
       </if>
-      <if test="phone != null" >
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="logo != null" >
-        #{logo,jdbcType=VARCHAR},
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
       </if>
       <if test="nickname != null" >
         #{nickname,jdbcType=VARCHAR},
       </if>
-      <if test="gender != null" >
-        #{gender,jdbcType=CHAR},
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
       </if>
-      <if test="area != null" >
-        #{area,jdbcType=VARCHAR},
+      <if test="deposit != null" >
+        #{deposit,jdbcType=DECIMAL},
       </if>
-      <if test="trade != null" >
-        #{trade,jdbcType=VARCHAR},
+      <if test="phone != null" >
+        #{phone,jdbcType=CHAR},
       </if>
-      <if test="profession != null" >
-        #{profession,jdbcType=VARCHAR},
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
       </if>
-      <if test="introduction != null" >
-        #{introduction,jdbcType=VARCHAR},
+      <if test="signature != null" >
+        #{signature,jdbcType=VARCHAR},
       </if>
-      <if test="isVip != null" >
-        #{isVip,jdbcType=CHAR},
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="constellation != null" >
+        #{constellation,jdbcType=SMALLINT},
       </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
       </if>
-      <if test="createBy != null" >
-        #{createBy,jdbcType=VARCHAR},
+      <if test="level != null" >
+        #{level,jdbcType=SMALLINT},
       </if>
-      <if test="updateBy != null" >
-        #{updateBy,jdbcType=VARCHAR},
+      <if test="sex != null" >
+        #{sex,jdbcType=SMALLINT},
+      </if>
+      <if test="vip != null" >
+        #{vip,jdbcType=SMALLINT},
+      </if>
+      <if test="exVipTime != null" >
+        #{exVipTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=SMALLINT},
+      </if>
+      <if test="signage != null" >
+        #{signage,jdbcType=CHAR},
+      </if>
+      <if test="points != null" >
+        #{points,jdbcType=DECIMAL},
+      </if>
+      <if test="reSignage != null" >
+        #{reSignage,jdbcType=INTEGER},
+      </if>
+      <if test="isMute != null" >
+        #{isMute,jdbcType=INTEGER},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=CHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="exp != null" >
+        #{exp,jdbcType=BIGINT},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carId != null" >
+        #{carId,jdbcType=INTEGER},
+      </if>
+      <if test="exCarTime != null" >
+        #{exCarTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="apiToken != null" >
+        #{apiToken,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="os != null" >
+        #{os,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.eason.api.po.user.UserInfoPo" >
     update user_info
     <set >
-      <if test="phone != null" >
-        phone = #{phone,jdbcType=VARCHAR},
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="logo != null" >
-        logo = #{logo,jdbcType=VARCHAR},
+      <if test="deposit != null" >
+        deposit = #{deposit,jdbcType=DECIMAL},
       </if>
-      <if test="nickname != null" >
-        nickName = #{nickname,jdbcType=VARCHAR},
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=CHAR},
       </if>
-      <if test="gender != null" >
-        gender = #{gender,jdbcType=CHAR},
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=DATE},
       </if>
-      <if test="area != null" >
-        area = #{area,jdbcType=VARCHAR},
+      <if test="signature != null" >
+        signature = #{signature,jdbcType=VARCHAR},
       </if>
-      <if test="trade != null" >
-        trade = #{trade,jdbcType=VARCHAR},
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
       </if>
-      <if test="profession != null" >
-        profession = #{profession,jdbcType=VARCHAR},
+      <if test="constellation != null" >
+        constellation = #{constellation,jdbcType=SMALLINT},
       </if>
-      <if test="introduction != null" >
-        introduction = #{introduction,jdbcType=VARCHAR},
+      <if test="location != null" >
+        location = #{location,jdbcType=VARCHAR},
       </if>
-      <if test="isVip != null" >
-        is_vip = #{isVip,jdbcType=CHAR},
+      <if test="level != null" >
+        level = #{level,jdbcType=SMALLINT},
       </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=SMALLINT},
       </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      <if test="vip != null" >
+        vip = #{vip,jdbcType=SMALLINT},
       </if>
-      <if test="createBy != null" >
-        create_by = #{createBy,jdbcType=VARCHAR},
+      <if test="exVipTime != null" >
+        ex_vip_time = #{exVipTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateBy != null" >
-        update_by = #{updateBy,jdbcType=VARCHAR},
+      <if test="role != null" >
+        role = #{role,jdbcType=SMALLINT},
+      </if>
+      <if test="signage != null" >
+        signage = #{signage,jdbcType=CHAR},
+      </if>
+      <if test="points != null" >
+        points = #{points,jdbcType=DECIMAL},
+      </if>
+      <if test="reSignage != null" >
+        re_signage = #{reSignage,jdbcType=INTEGER},
+      </if>
+      <if test="isMute != null" >
+        is_mute = #{isMute,jdbcType=INTEGER},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=CHAR},
       </if>
       <if test="status != null" >
-        STATUS = #{status,jdbcType=TINYINT},
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="exp != null" >
+        exp = #{exp,jdbcType=BIGINT},
+      </if>
+      <if test="createdAt != null" >
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carId != null" >
+        car_id = #{carId,jdbcType=INTEGER},
+      </if>
+      <if test="exCarTime != null" >
+        ex_car_time = #{exCarTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="apiToken != null" >
+        api_token = #{apiToken,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="os != null" >
+        os = #{os,jdbcType=VARCHAR},
       </if>
     </set>
-    where user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.eason.api.po.user.UserInfoPo" >
     update user_info
-    set phone = #{phone,jdbcType=VARCHAR},
+    set username = #{username,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
-      logo = #{logo,jdbcType=VARCHAR},
-      nickName = #{nickname,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=CHAR},
-      area = #{area,jdbcType=VARCHAR},
-      trade = #{trade,jdbcType=VARCHAR},
-      profession = #{profession,jdbcType=VARCHAR},
-      introduction = #{introduction,jdbcType=VARCHAR},
-      is_vip = #{isVip,jdbcType=CHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      create_by = #{createBy,jdbcType=VARCHAR},
-      update_by = #{updateBy,jdbcType=VARCHAR},
-      STATUS = #{status,jdbcType=TINYINT}
-    where user_id = #{userId,jdbcType=INTEGER}
+      deposit = #{deposit,jdbcType=DECIMAL},
+      phone = #{phone,jdbcType=CHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      signature = #{signature,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      constellation = #{constellation,jdbcType=SMALLINT},
+      location = #{location,jdbcType=VARCHAR},
+      level = #{level,jdbcType=SMALLINT},
+      sex = #{sex,jdbcType=SMALLINT},
+      vip = #{vip,jdbcType=SMALLINT},
+      ex_vip_time = #{exVipTime,jdbcType=TIMESTAMP},
+      role = #{role,jdbcType=SMALLINT},
+      signage = #{signage,jdbcType=CHAR},
+      points = #{points,jdbcType=DECIMAL},
+      re_signage = #{reSignage,jdbcType=INTEGER},
+      is_mute = #{isMute,jdbcType=INTEGER},
+      salt = #{salt,jdbcType=CHAR},
+      status = #{status,jdbcType=TINYINT},
+      exp = #{exp,jdbcType=BIGINT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      car_id = #{carId,jdbcType=INTEGER},
+      ex_car_time = #{exCarTime,jdbcType=TIMESTAMP},
+      api_token = #{apiToken,jdbcType=VARCHAR},
+      channel = #{channel,jdbcType=VARCHAR},
+      os = #{os,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="getUserByAccount" parameterType="com.eason.api.po.user.UserInfoPo" resultMap="BaseResultMap">
-		SELECT 
-		  <include refid="Base_Column_List" />
-		FROM
-		  `user_info` 
-		<where>
-			<if test="userId != null">
-				 AND user_id=#{userId}
-			</if>
-			<if test="phone != null">
-				 AND phone=#{phone}
-			</if>
-			<if test="password != null">
-				 AND PASSWORD=#{password}
-			</if>
-		</where>	
-		order by create_time desc
-	</select>
-	
-	<!--<select id="getUserDetail" parameterType="com.eason.api.po.user.UserInfoPo" resultType="view.user.UserDetailVo">-->
-		<!--SELECT -->
-		  <!--t_user.`user_id` AS userId,-->
-		  <!--t_user.`phone`,-->
-		  <!--t_user.`logo`,-->
-		  <!--t_user.`nickName`,-->
-		  <!--t_user.`gender`,-->
-		  <!--t_user.`score`,-->
-		  <!--t_user.`is_vip` AS isVip,-->
-		  <!--t_user.`status`,-->
-		  <!--t_cargo_author.`status` AS cargoAuthor,-->
-		  <!--t_car_author.`status` AS carAuthor,-->
-		  <!--user_ta.`ta_balance` AS amount-->
-		<!--FROM-->
-		  <!--`user_info` t_user-->
-		<!--LEFT OUTER JOIN t_cargo_author ON t_cargo_author.`user_id`=t_user.`user_id`-->
-		<!--LEFT OUTER JOIN t_car_author ON t_car_author.`user_id`=t_user.`user_id`-->
-		<!--LEFT OUTER JOIN user_ta ON t_user.`user_id`=user_ta.`user_id` -->
-		<!--<where>-->
-			<!--<if test="userId != null">-->
-				 <!--AND t_user.user_id=#{userId}-->
-			<!--</if>-->
-			<!--<if test="phone != null">-->
-				 <!--AND t_user.phone=#{phone}-->
-			<!--</if>-->
-			<!--<if test="password != null">-->
-				 <!--AND t_user.PASSWORD=#{password}-->
-			<!--</if>-->
-		<!--</where>	-->
-		<!--order by t_user.create_time desc-->
-	<!--</select>-->
 </mapper>
