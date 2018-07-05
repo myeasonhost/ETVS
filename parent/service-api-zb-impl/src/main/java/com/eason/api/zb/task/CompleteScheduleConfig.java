@@ -1,7 +1,7 @@
 //package com.eason.api.zb.task;
 //
 //import com.eason.api.zb.cache.ZbTRoomCron;
-//import com.eason.api.zb.dao.RoomCronDao;
+//import com.eason.api.zb.mapper.RoomCronDao;
 //import org.apache.commons.lang.StringUtils;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.annotation.Configuration;

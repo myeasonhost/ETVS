@@ -1,4 +1,4 @@
-package com.eason.api.dao;
+package com.eason.api.mapper;
 
 import com.eason.api.po.user.VerifyCodeLogPo;
 
