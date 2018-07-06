@@ -56,7 +56,8 @@ public class IndexServiceImpl implements IIndexService {
             List<ZbTRecrecordsLog> logList=new ArrayList<>();
             Page<ZbTRoomPlan> page=null;
             if("1".equals(category)){ //最热=1
-                Pageable pageable = new PageRequest(position, pageSize, Sort.Direction.DESC, "incomeAmountToday");
+                Sort sort = new Sort(Sort.Direction.DESC,"orderField").and(new Sort(Sort.Direction.DESC,"incomeAmountToday"));
+                Pageable pageable = new PageRequest(position, pageSize, sort);
                 page=roomPlanDao.findAll(pageable);
             }else if ("2".equals(category)){ //收藏=2
                 //TODO 录播类型=发布日期（近-远）
@@ -65,7 +66,8 @@ public class IndexServiceImpl implements IIndexService {
                 attentionList.forEach(ZbTUserAttention->{
                     ids.add(ZbTUserAttention.getfId());
                 });
-                PageRequest pageable = new PageRequest(position, pageSize, Sort.Direction.DESC, "incomeAmountToday");
+                Sort sort = new Sort(Sort.Direction.DESC,"orderField").and(new Sort(Sort.Direction.DESC,"incomeAmountToday"));
+                PageRequest pageable = new PageRequest(position, pageSize, sort);
                 page=  roomPlanDao.findByUserIds(ids,pageable);
                 //直播间已经显示完全,新增回放
                 if (!page.hasNext()){
@@ -74,17 +76,20 @@ public class IndexServiceImpl implements IIndexService {
                     }
                 }
             }else if ("3".equals(category)){ //最新=3
-                Pageable pageable = new PageRequest(position, pageSize, Sort.Direction.DESC, "openTime");
+                Sort sort = new Sort(Sort.Direction.DESC,"orderField").and(new Sort(Sort.Direction.DESC,"openTime"));
+                Pageable pageable = new PageRequest(position, pageSize, sort);
                 page=  roomPlanDao.findAll(pageable);
             }else if ("4".equals(category)){ //付费=4
-                Pageable pageable = new PageRequest(position, pageSize, Sort.Direction.DESC, "incomeAmountToday");
+                Sort sort = new Sort(Sort.Direction.DESC,"orderField").and(new Sort(Sort.Direction.DESC,"incomeAmountToday"));
+                Pageable pageable = new PageRequest(position, pageSize, sort);
                 List<String> roomTypes=new ArrayList<>();
                 roomTypes.add(ZbConstant.Room.Type.ticket.name());
                 roomTypes.add(ZbConstant.Room.Type.time.name());
                 roomTypes.add(ZbConstant.Room.Type.personal.name());
                 page= roomPlanDao.findByChargedRoom(roomTypes,pageable);
             }else if ("5".equals(category)){ //游戏
-                Pageable pageable = new PageRequest(position, pageSize, Sort.Direction.DESC, "incomeAmountToday");
+                Sort sort = new Sort(Sort.Direction.DESC,"orderField").and(new Sort(Sort.Direction.DESC,"incomeAmountToday"));
+                Pageable pageable = new PageRequest(position, pageSize, sort);
                 page=  roomPlanDao.findByRoomType(ZbConstant.Room.Type.game.name(),pageable);
             }else{
                throw new ServiceException("首页列表只支持category=1，2，3，4，5类型");

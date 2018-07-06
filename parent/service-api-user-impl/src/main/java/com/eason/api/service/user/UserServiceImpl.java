@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
@@ -43,6 +44,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    @RequestMapping(value = "/register",method = RequestMethod.POST)
     @Override
     public RegisterResponseVo register(RegisterRequestVo request) throws UserServiceException {
         RegisterResponseVo response = new RegisterResponseVo();
@@ -144,6 +146,7 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
     @Override
     public LoginResponseVo login(LoginRequestVo loginRequestVo) throws UserServiceException {
         LoginResponseVo response = new LoginResponseVo();
@@ -189,6 +192,7 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @RequestMapping(value = "/reset",method = RequestMethod.POST)
     @Override
     public RegisterResponseVo reset(RegisterRequestVo request) throws UserServiceException {
         RegisterResponseVo response = new RegisterResponseVo();
@@ -271,6 +275,7 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @RequestMapping(value = "/getValidateCode",method = RequestMethod.POST)
     @Override
     public UserCodeResponseVo getValidateCode(UserCodeRequestVo request) throws UserServiceException {
         UserCodeResponseVo getUserCodeResponse = new UserCodeResponseVo();
