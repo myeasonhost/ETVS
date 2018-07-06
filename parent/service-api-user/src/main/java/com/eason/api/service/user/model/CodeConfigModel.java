@@ -4,8 +4,8 @@ public class CodeConfigModel  {
     private Integer oneDayNum;  //一天发送验证码的总量
     private Integer totalNum;  //总共发送验证码的总量
     private Integer lastTime;  //30分钟内只能发送3次
-    private String interval_time;  //过多少（秒）可以重新发送验证码
-    private String code_valid_time;  //验证码失效时间（秒）
+    private String interval_time;  //过多少（分钟）可以重新发送验证码
+    private String code_valid_time;  //验证码失效时间（分钟）
     private Integer verFailTime;  //多长时间内失败3次则禁止再进行验证
     private String verFialForbidTime;  //如果规定时间内验证失败超过3次，禁止验证多长时间
 

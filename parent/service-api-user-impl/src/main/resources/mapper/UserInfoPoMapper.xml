@@ -386,4 +386,23 @@
       os = #{os,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getUserByAccount" parameterType="com.eason.api.po.user.UserInfoPo" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    `user_info`
+    <where>
+      <if test="userId != null">
+        AND user_id=#{userId}
+      </if>
+      <if test="phone != null">
+        AND phone=#{phone}
+      </if>
+      <if test="password != null">
+        AND PASSWORD=#{password}
+      </if>
+    </where>
+    order by create_time desc
+  </select>
 </mapper>
