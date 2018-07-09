@@ -6,7 +6,7 @@ eureka:
     serviceUrl:
       defaultZone: http://127.0.0.1:8761/eureka/
 server:
-  port: 8763
+  port: 8774
 spring:
   application:
     name: service-scheduler

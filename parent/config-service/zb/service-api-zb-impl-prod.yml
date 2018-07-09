@@ -43,7 +43,7 @@ eureka:
     serviceUrl:
       defaultZone: http://192.168.0.138:8761/eureka/
 server:
-  port: 8762
+  port: 8776
   tomcat:
         uri-encoding: UTF-8
 zb:

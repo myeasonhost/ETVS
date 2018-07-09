@@ -42,10 +42,10 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://127.0.0.1:8761/eureka/
-#server:
-#  port: 8762
-#  tomcat:
-#        uri-encoding: UTF-8
+server:
+  port: 8776
+  tomcat:
+        uri-encoding: UTF-8
 zb:
   file:
       img:

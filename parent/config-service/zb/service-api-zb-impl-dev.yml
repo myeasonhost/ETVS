@@ -45,7 +45,7 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 server:
-  port: 8762
+  port: 8776
   tomcat:
         uri-encoding: UTF-8
 zb:
