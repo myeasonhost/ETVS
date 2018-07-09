@@ -1,5 +1,6 @@
 package com.eason.api.zb.service.impl;
 
+import com.eason.api.base.vo.model.FileItemModel;
 import com.eason.api.common.util.AESOperator;
 import com.eason.api.zb.IRoomService;
 import com.eason.api.zb.cache.ZbTRoomConf;
@@ -10,7 +11,6 @@ import com.eason.api.zb.dao.*;
 import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.manager.ConfigManager;
 import com.eason.api.zb.manager.RoomManager;
-import com.eason.api.zb.model.FileItemModel;
 import com.eason.api.zb.model.ZbConstant;
 import com.eason.api.zb.po.*;
 import com.eason.api.zb.vo.platform.IMResponseVo;

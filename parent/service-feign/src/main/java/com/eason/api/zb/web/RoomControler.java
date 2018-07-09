@@ -1,8 +1,8 @@
 package com.eason.api.zb.web;
 
+import com.eason.api.base.vo.model.FileItemModel;
 import com.eason.api.base.vo.response.ResponseVo;
 import com.eason.api.exception.ServiceException;
-import com.eason.api.zb.model.FileItemModel;
 import com.eason.api.zb.service.FLiveUrlService;
 import com.eason.api.zb.service.FRoomService;
 import com.eason.api.zb.vo.platform.MediaResponseVo;
