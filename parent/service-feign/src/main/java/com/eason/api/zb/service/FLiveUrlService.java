@@ -1,7 +1,7 @@
 package com.eason.api.zb.service;
 
 import com.eason.api.zb.ILiveUrlService;
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.service.impl.FLiveUrlServiceImpl;
 import com.eason.api.zb.vo.live.ZbRoomLiveVo;
 import org.springframework.cloud.netflix.feign.FeignClient;

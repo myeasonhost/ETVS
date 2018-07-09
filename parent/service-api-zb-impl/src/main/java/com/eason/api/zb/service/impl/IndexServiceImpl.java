@@ -3,7 +3,7 @@ package com.eason.api.zb.service.impl;
 import com.eason.api.zb.IIndexService;
 import com.eason.api.zb.cache.ZbTRoomPlan;
 import com.eason.api.zb.dao.*;
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.model.PageModel;
 import com.eason.api.zb.model.ZbConstant;
 import com.eason.api.zb.po.*;

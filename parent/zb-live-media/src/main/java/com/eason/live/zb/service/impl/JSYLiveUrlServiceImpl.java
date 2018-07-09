@@ -1,7 +1,7 @@
 //package com.eason.live.zb.service.impl;
 //
 //import com.eason.api.zb.ILiveUrlService;
-//import com.eason.api.zb.exception.ServiceException;
+//import com.eason.api.exception.ServiceException;
 //import com.eason.live.zb.config.JsyLiveConfig;
 //import org.apache.commons.lang.time.DateUtils;
 //import org.springframework.beans.factory.annotation.Autowired;

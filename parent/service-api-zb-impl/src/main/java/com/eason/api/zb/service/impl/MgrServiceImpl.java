@@ -4,7 +4,7 @@ import com.eason.api.zb.IMgrService;
 import com.eason.api.zb.cache.ZbTRoomConf;
 import com.eason.api.zb.cache.ZbTRoomPlan;
 import com.eason.api.zb.dao.*;
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.manager.PlatformManager;
 import com.eason.api.zb.model.ZbConstant;
 import com.eason.api.zb.po.*;

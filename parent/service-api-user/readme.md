@@ -1,0 +1,1 @@
+apidoc -i src -o ../service-api-user-impl/src/main/resources/apidoc

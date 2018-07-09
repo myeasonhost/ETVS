@@ -49,7 +49,7 @@
     delete from user_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.eason.api.po.user.UserInfoPo" >
+  <insert id="insert" parameterType="com.eason.api.po.user.UserInfoPo" useGeneratedKeys="true" keyProperty="id">
     insert into user_info (id, username, nickname, 
       password, deposit, phone, 
       birthday, signature, avatar, 
@@ -393,16 +393,19 @@
     FROM
     `user_info`
     <where>
-      <if test="userId != null">
-        AND user_id=#{userId}
+      <if test="id != null">
+        AND id=#{id}
+      </if>
+      <if test="username != null">
+        AND username=#{username}
       </if>
       <if test="phone != null">
         AND phone=#{phone}
       </if>
       <if test="password != null">
-        AND PASSWORD=#{password}
+        AND password=#{password}
       </if>
     </where>
-    order by create_time desc
+    order by created_at desc
   </select>
 </mapper>

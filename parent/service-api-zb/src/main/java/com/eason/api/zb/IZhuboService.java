@@ -1,8 +1,6 @@
 package com.eason.api.zb;
 
-import com.eason.api.zb.exception.ServiceException;
-import com.eason.api.zb.vo.platform.IMResponseVo;
-import com.eason.api.zb.vo.platform.MediaResponseVo;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.vo.room.RoomStatResponseVo;
 import com.eason.api.zb.vo.user.UserLevelRankResponseVo;
 import com.eason.api.zb.vo.user.UserResponseVo;

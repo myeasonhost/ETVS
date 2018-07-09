@@ -1,15 +1,6 @@
 package com.eason.api.zb;
 
-import com.eason.api.zb.exception.ServiceException;
-import com.eason.api.zb.vo.room.RoomStatResponseVo;
-import com.eason.api.zb.vo.user.UserLevelRankResponseVo;
-import com.eason.api.zb.vo.user.UserResponseVo;
-import com.eason.api.zb.vo.zhubo.ReadyPlayResponseVo;
-import com.eason.api.zb.vo.zhubo.StartPlayRequestVo;
-import com.eason.api.zb.vo.zhubo.StartPlayResponseVo;
-import com.eason.api.zb.vo.zhubo.ZhuboResponseVo;
-
-import java.util.List;
+import com.eason.api.exception.ServiceException;
 
 /**
  * @apiDefine task 任务API

@@ -2,10 +2,9 @@ package com.eason.api.zb.manager;
 
 import com.eason.api.common.util.HttpClientUtils;
 import com.eason.api.zb.dao.RoomDeleteLogDao;
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.model.IMConfigModel;
 import com.eason.api.zb.model.MediaConfigModel;
-import com.eason.api.zb.po.ZbTRoomMediaDeleteLog;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -14,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 

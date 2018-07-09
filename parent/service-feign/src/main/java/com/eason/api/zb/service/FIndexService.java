@@ -1,7 +1,7 @@
 package com.eason.api.zb.service;
 
 import com.eason.api.zb.IIndexService;
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.model.PageModel;
 import com.eason.api.zb.service.impl.FIndexServiceImpl;
 import com.eason.api.zb.vo.index.BannerResponseVo;

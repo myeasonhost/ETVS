@@ -1,15 +1,12 @@
 package com.eason.api.zb.service.impl;
 
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.model.FileItemModel;
 import com.eason.api.zb.service.FRoomService;
-import com.eason.api.zb.service.FUserService;
 import com.eason.api.zb.vo.room.IsChargedResponseVo;
 import com.eason.api.zb.vo.room.RoomResponseVo;
 import com.eason.api.zb.vo.room.RoomSetResponseVo;
 import com.eason.api.zb.vo.room.RoomStatResponseVo;
-import com.eason.api.zb.vo.user.TrySeeResponseVo;
-import com.eason.api.zb.vo.user.UserResponseVo;
 import org.springframework.stereotype.Component;
 
 @Component("roomServiceImpl")

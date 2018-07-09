@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,7 +47,7 @@ public class UserServiceImpl implements IUserService {
 
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     @Override
-    public RegisterResponseVo register(RegisterRequestVo request) throws UserServiceException {
+    public RegisterResponseVo register(@RequestBody RegisterRequestVo request) throws UserServiceException {
         RegisterResponseVo response = new RegisterResponseVo();
         CodeConfigModel codeConfigModel=codeMgrImpl.getCodeConfigConditional();
         try {
@@ -101,6 +102,7 @@ public class UserServiceImpl implements IUserService {
                     if (usersCode.getCode() != null && usersCode.getCode().equals(request.getValidateCode())) {
                         //(1)更新user表的注册状态
                         UserInfoPo userInfoPo=new UserInfoPo();
+                        userInfoPo.setUsername(request.getPhone());
                         userInfoPo.setPhone(request.getPhone());
                         userInfoPo.setPassword(request.getPassword());
                         userInfoPo.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
@@ -120,7 +122,7 @@ public class UserServiceImpl implements IUserService {
                         userCodeMapper.updateModelById(cd);
                         //(5)验证完毕，清除缓存
                         this.stringRedisTemplate.delete(request.getPhone());
-                        response.setResult("用户手机注册成功！");
+                        response.setResult("用户手机注册成功");
                         response.setUserId(userInfoPo.getId()); //返回userid
                         //(6)发送推送
 //                        pushServiceImpl.pushUserService(userInfoPo.getUserId(), PushTemplatePo.STATUS.REGIST_SUCCESS);
@@ -148,7 +150,7 @@ public class UserServiceImpl implements IUserService {
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @Override
-    public LoginResponseVo login(LoginRequestVo loginRequestVo) throws UserServiceException {
+    public LoginResponseVo login(@RequestBody LoginRequestVo loginRequestVo) throws UserServiceException {
         LoginResponseVo response = new LoginResponseVo();
         String result = null;
         String msg = null;
@@ -163,7 +165,7 @@ public class UserServiceImpl implements IUserService {
 
             // ②验证用户
             UserInfoPo userPo=new UserInfoPo();
-            userPo.setPhone(loginRequestVo.getUsername());
+            userPo.setUsername(loginRequestVo.getUsername());
             userPo.setPassword(loginRequestVo.getPassword());
             userPo = this.userMapper.getUserByAccount(userPo);
             if (userPo==null) {
@@ -175,7 +177,7 @@ public class UserServiceImpl implements IUserService {
             }
             String token = TokenUtil.getToken();
             response.setToken(token);
-            stringRedisTemplate.boundHashOps("user_api_token").put(userPo.getId(),token);
+            stringRedisTemplate.boundHashOps("user_api_token").put(userPo.getId()+"",token);
 
             //3更新用户登陆时间
             userPo.setUpdatedAt(new Date());
@@ -194,10 +196,9 @@ public class UserServiceImpl implements IUserService {
 
     @RequestMapping(value = "/reset",method = RequestMethod.POST)
     @Override
-    public RegisterResponseVo reset(RegisterRequestVo request) throws UserServiceException {
+    public RegisterResponseVo reset(@RequestBody RegisterRequestVo request) throws UserServiceException {
         RegisterResponseVo response = new RegisterResponseVo();
-        String result = null;
-        String msg = null;
+        CodeConfigModel codeConfigModel=codeMgrImpl.getCodeConfigConditional();
         try {
             // 1. 参数验证
             if (StringUtils.isBlank(request.getValidateCode())) {
@@ -215,6 +216,12 @@ public class UserServiceImpl implements IUserService {
             // 用户手机号
             hashMap.put("phone", request.getPhone());
             hashMap.put("state", 1);
+            // 验证码有效时间
+            hashMap.put("codeVaildTime", codeConfigModel.getCode_valid_time());
+            // 多长时间内失败3次则禁止再进行验证
+            hashMap.put("verFailTime", codeConfigModel.getVerFailTime());
+            // 如果规定时间内验证失败超过3次，禁止验证多长时间
+            hashMap.put("verFialForbidTime", codeConfigModel.getVerFialForbidTime());
             HashMap<String, Object>  resultMap = codeMgrImpl.getUserCodeForDB(hashMap);
             if (resultMap != null) {
                 Boolean flag = (Boolean) resultMap.get("flag");
@@ -252,7 +259,7 @@ public class UserServiceImpl implements IUserService {
                         //(5)验证完毕，清除缓存
                         this.stringRedisTemplate.delete(request.getPhone());
                         response.setResult("用户重置密码成功！");
-                        response.setUserId(userPo.getId()); //返回userid
+                        response.setUserId(userInfo.getId()); //返回userid
                         return response;
                     } else {
                         // 验证码不匹配 0为不匹配 1为匹配
@@ -277,14 +284,14 @@ public class UserServiceImpl implements IUserService {
 
     @RequestMapping(value = "/getValidateCode",method = RequestMethod.POST)
     @Override
-    public UserCodeResponseVo getValidateCode(UserCodeRequestVo request) throws UserServiceException {
+    public UserCodeResponseVo getValidateCode(@RequestBody UserCodeRequestVo request) throws UserServiceException {
         UserCodeResponseVo getUserCodeResponse = new UserCodeResponseVo();
         try {
             if (StringUtils.isBlank(request.getPhone())) {
                 throw  new UserServiceException("手机号不能为空");
             } else if (request.getCodeType() == null) {
                 throw  new UserServiceException("验证类型不能为空");
-            } else if (!request.getCodeType().equals("1") && !request.getCodeType().equals("2")) {
+            } else if (!request.getCodeType().equals(1) && !request.getCodeType().equals(2)) {
                 throw  new UserServiceException("验证类型只能为1注册或者2重置");
             }
             // 2. 业务验证
@@ -293,7 +300,7 @@ public class UserServiceImpl implements IUserService {
             userPo.setPhone(request.getPhone());
             userPo = this.userMapper.getUserByAccount(userPo);
             // 如果是注册
-            if (String.valueOf(request.getCodeType()).equals(1)) {
+            if (request.getCodeType().equals(1)) {
                 if (userPo != null) {
                     // 该用户已经注册
                     throw  new UserServiceException("该用户已经注册");
@@ -308,7 +315,7 @@ public class UserServiceImpl implements IUserService {
                         // 判断此用户最后一次发送的验证码的状态
                         codeMgrImpl.updateLastCodeStatus(hashmap);
                         // 发送验证码
-                        String code=codeMgrImpl.createCodeAndSend(request);
+                        String code=codeMgrImpl.createCodeAndSend(request,Integer.parseInt(codeMgrImpl.getCodeConfigConditional().getCode_valid_time()));
                         getUserCodeResponse.setCode(code);
                         if (code==null) {
                             throw new UserServiceException("发送验证码失败");
@@ -317,8 +324,10 @@ public class UserServiceImpl implements IUserService {
                         throw new UserServiceException( (String) conformMap.get("errorMsg"));
                     }
                 }
+                getUserCodeResponse.setResult("注册验证码发送成功");
+
                 // 重置密码
-            } else if (String.valueOf(request.getCodeType()).equals(String.valueOf(2))) {
+            } else if (request.getCodeType().equals(2)) {
                 if (userPo != null) {
                     // 获取验证的条件
                     HashMap<String, Object> hashmap = codeMgrImpl.getVerifCondition();
@@ -330,7 +339,7 @@ public class UserServiceImpl implements IUserService {
                         // 判断此用户最后一次发送的验证码的状态
                         codeMgrImpl.updateLastCodeStatus(hashmap);
                         // 发送验证码
-                        String code=codeMgrImpl.createCodeAndSend(request);
+                        String code=codeMgrImpl.createCodeAndSend(request,Integer.parseInt(codeMgrImpl.getCodeConfigConditional().getCode_valid_time()));
                         getUserCodeResponse.setCode(code);
                         if (code==null) {
                             throw new UserServiceException("发送验证码失败");
@@ -343,8 +352,8 @@ public class UserServiceImpl implements IUserService {
                     // 手机号不存在
                     throw new UserServiceException( "手机号不存在，该用户未注册");
                 }
+                getUserCodeResponse.setResult("重置验证码发送成功");
             }
-            getUserCodeResponse.setResult("验证码发送成功");
             return getUserCodeResponse;
         } catch (Exception e) {
             log.error("重置密码或者注册用户前检验用户时出错,userPhone:" + request.getPhone(),e);

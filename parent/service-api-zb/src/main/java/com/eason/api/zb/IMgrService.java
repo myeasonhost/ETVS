@@ -1,6 +1,6 @@
 package com.eason.api.zb;
 
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.vo.zhubo.MgrStartPlayRequestVo;
 import com.eason.api.zb.vo.zhubo.StartPlayResponseVo;
 

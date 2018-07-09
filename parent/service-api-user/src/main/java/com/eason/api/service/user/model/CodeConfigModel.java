@@ -1,35 +1,35 @@
 package com.eason.api.service.user.model;
 
 public class CodeConfigModel  {
-    private Integer oneDayNum;  //一天发送验证码的总量
-    private Integer totalNum;  //总共发送验证码的总量
-    private Integer lastTime;  //30分钟内只能发送3次
+    private String oneDayNum;  //一天发送验证码的总量
+    private String totalNum;  //总共发送验证码的总量
+    private String lastTime;  //30分钟内只能发送3次
     private String interval_time;  //过多少（分钟）可以重新发送验证码
     private String code_valid_time;  //验证码失效时间（分钟）
-    private Integer verFailTime;  //多长时间内失败3次则禁止再进行验证
+    private String verFailTime;  //多长时间内失败3次则禁止再进行验证
     private String verFialForbidTime;  //如果规定时间内验证失败超过3次，禁止验证多长时间
 
-    public Integer getOneDayNum() {
+    public String getOneDayNum() {
         return oneDayNum;
     }
 
-    public void setOneDayNum(Integer oneDayNum) {
+    public void setOneDayNum(String oneDayNum) {
         this.oneDayNum = oneDayNum;
     }
 
-    public Integer getTotalNum() {
+    public String getTotalNum() {
         return totalNum;
     }
 
-    public void setTotalNum(Integer totalNum) {
+    public void setTotalNum(String totalNum) {
         this.totalNum = totalNum;
     }
 
-    public Integer getLastTime() {
+    public String getLastTime() {
         return lastTime;
     }
 
-    public void setLastTime(Integer lastTime) {
+    public void setLastTime(String lastTime) {
         this.lastTime = lastTime;
     }
 
@@ -49,11 +49,11 @@ public class CodeConfigModel  {
         this.code_valid_time = code_valid_time;
     }
 
-    public Integer getVerFailTime() {
+    public String getVerFailTime() {
         return verFailTime;
     }
 
-    public void setVerFailTime(Integer verFailTime) {
+    public void setVerFailTime(String verFailTime) {
         this.verFailTime = verFailTime;
     }
 

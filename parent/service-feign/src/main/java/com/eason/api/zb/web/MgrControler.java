@@ -1,22 +1,17 @@
 package com.eason.api.zb.web;
 
 import com.eason.api.base.vo.response.ResponseVo;
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.service.FMgrService;
-import com.eason.api.zb.service.FZhuboService;
 import com.eason.api.zb.vo.zhubo.MgrStartPlayRequestVo;
-import com.eason.api.zb.vo.zhubo.StartPlayRequestVo;
 import com.netflix.hystrix.exception.HystrixRuntimeException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.BoundHashOperations;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 @RestController

@@ -1,7 +1,7 @@
 package com.eason.api.zb.service;
 
 import com.eason.api.zb.IUserService;
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.service.impl.FUserServiceImpl;
 import com.eason.api.zb.vo.user.TrySeeResponseVo;
 import com.eason.api.zb.vo.user.UserResponseVo;

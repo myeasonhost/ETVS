@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class CodeMgrImpl implements ICodeService {
@@ -36,11 +37,11 @@ public class CodeMgrImpl implements ICodeService {
     @Override
     public CodeConfigModel getCodeConfigConditional() throws UserServiceException {
         CodeConfigModel codeConfigModel=new CodeConfigModel();
-        codeConfigModel.setOneDayNum(10);
-        codeConfigModel.setLastTime(3);
+        codeConfigModel.setOneDayNum("10");
+        codeConfigModel.setLastTime("3");
         codeConfigModel.setInterval_time("1");
         codeConfigModel.setCode_valid_time("10");
-        codeConfigModel.setVerFailTime(3);
+        codeConfigModel.setVerFailTime("3");
         codeConfigModel.setVerFialForbidTime("10");
         return codeConfigModel;
     }
@@ -50,11 +51,11 @@ public class CodeMgrImpl implements ICodeService {
      */
     public HashMap<String, Object> getVerifCondition(){
         CodeConfigModel codeConfigModel=new CodeConfigModel();
-        codeConfigModel.setOneDayNum(10);
-        codeConfigModel.setLastTime(3);
+        codeConfigModel.setOneDayNum("10");
+        codeConfigModel.setLastTime("3");
         codeConfigModel.setInterval_time("1");
         codeConfigModel.setCode_valid_time("10");
-        codeConfigModel.setVerFailTime(3);
+        codeConfigModel.setVerFailTime("3");
         codeConfigModel.setVerFialForbidTime("10");
         // 拼接查询条件
         HashMap<String, Object> Hashmap = new HashMap<String, Object>();
@@ -225,7 +226,7 @@ public class CodeMgrImpl implements ICodeService {
     /**
      * FunName: createCodeAndSend Description: 生成验证码并且发送且添加到数据库
      */
-    public String createCodeAndSend(UserCodeRequestVo request)  {
+    public String createCodeAndSend(UserCodeRequestVo request,int codeValidTime)  {
 
         boolean flag = false;
         try {
@@ -240,11 +241,7 @@ public class CodeMgrImpl implements ICodeService {
             if (code == null) {
                 // 生成随机数
                 code = String.valueOf(Math.round(Math.random() * 8999 + 1000));
-                Calendar calender = new GregorianCalendar();
-                calender.setTime(new Date());
-                // 十分钟发重复的验证码
-                calender.add(Calendar.MINUTE, 10);
-                stringRedisTemplate.opsForValue().set( request.getPhone(), code, calender.getTimeInMillis());
+                stringRedisTemplate.opsForValue().set( request.getPhone(), code, codeValidTime, TimeUnit.MINUTES);
             }
             flag = PushUtil.sendTextCode(code, request.getPhone());
             if (flag) {
@@ -252,7 +249,6 @@ public class CodeMgrImpl implements ICodeService {
                 userCode.setType(request.getCodeType().byteValue()); // 验证码类型为重置密码
                 userCode.setCode(code);
                 userCode.setPhone(request.getPhone());
-                userCode.setMac("ios8 not support mac");
                 userCode.setSendTime(new Date());
                 // 验证码状态(1为未使用,2为已经验证失效,3为已经验证成功)
                 userCode.setState(1);

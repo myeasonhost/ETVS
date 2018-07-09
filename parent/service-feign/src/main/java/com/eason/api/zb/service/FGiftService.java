@@ -1,7 +1,7 @@
 package com.eason.api.zb.service;
 
 import com.eason.api.zb.IGiftService;
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.service.impl.FGiftServiceImpl;
 import com.eason.api.zb.vo.gift.*;
 import org.springframework.cloud.netflix.feign.FeignClient;

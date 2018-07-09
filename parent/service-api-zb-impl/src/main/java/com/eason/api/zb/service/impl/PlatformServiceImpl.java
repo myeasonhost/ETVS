@@ -1,14 +1,11 @@
 package com.eason.api.zb.service.impl;
 
-import com.eason.api.zb.cache.ZbTRoomConf;
-import com.eason.api.zb.cache.ZbTRoomPlan;
 import com.eason.api.zb.dao.RoomConfDao;
 import com.eason.api.zb.dao.RoomPlanDao;
 import com.eason.api.zb.dao.ZhuboDao;
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.manager.PlatformManager;
 import com.eason.api.zb.IPlatformService;
-import com.eason.api.zb.po.ZbTZhubo;
 import com.eason.api.zb.vo.platform.IMResponseVo;
 import com.eason.api.zb.vo.platform.MediaResponseVo;
 import org.slf4j.Logger;
@@ -18,8 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/platform")

@@ -1,7 +1,7 @@
 package com.eason.api.zb.service;
 
 import com.eason.api.zb.IMgrService;
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.service.impl.FMgrServiceImpl;
 import com.eason.api.zb.vo.zhubo.MgrStartPlayRequestVo;
 import com.eason.api.zb.vo.zhubo.StartPlayResponseVo;

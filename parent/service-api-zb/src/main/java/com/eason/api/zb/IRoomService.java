@@ -1,6 +1,6 @@
 package com.eason.api.zb;
 
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.model.FileItemModel;
 import com.eason.api.zb.vo.room.IsChargedResponseVo;
 import com.eason.api.zb.vo.room.RoomResponseVo;

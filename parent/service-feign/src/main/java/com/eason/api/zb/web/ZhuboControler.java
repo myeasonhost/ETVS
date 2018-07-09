@@ -1,8 +1,7 @@
 package com.eason.api.zb.web;
 
 import com.eason.api.base.vo.response.ResponseVo;
-import com.eason.api.zb.IZhuboService;
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.service.FLiveUrlService;
 import com.eason.api.zb.service.FZhuboService;
 import com.eason.api.zb.vo.platform.MediaResponseVo;

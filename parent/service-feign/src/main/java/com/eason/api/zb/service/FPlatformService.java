@@ -1,7 +1,7 @@
 package com.eason.api.zb.service;
 
 import com.eason.api.zb.IPlatformService;
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.service.impl.FPlatformServiceImpl;
 import com.eason.api.zb.vo.platform.IMResponseVo;
 import com.eason.api.zb.vo.platform.MediaResponseVo;

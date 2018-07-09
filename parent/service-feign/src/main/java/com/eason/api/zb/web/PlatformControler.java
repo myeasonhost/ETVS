@@ -1,8 +1,7 @@
 package com.eason.api.zb.web;
 
 import com.eason.api.base.vo.response.ResponseVo;
-import com.eason.api.zb.IPlatformService;
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.service.FPlatformService;
 import com.netflix.hystrix.exception.HystrixRuntimeException;
 import org.apache.commons.lang.StringUtils;

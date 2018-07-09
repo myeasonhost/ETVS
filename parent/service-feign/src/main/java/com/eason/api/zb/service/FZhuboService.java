@@ -1,7 +1,7 @@
 package com.eason.api.zb.service;
 
 import com.eason.api.zb.IZhuboService;
-import com.eason.api.zb.exception.ServiceException;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.service.impl.FZhuboServiceImpl;
 import com.eason.api.zb.vo.room.RoomStatResponseVo;
 import com.eason.api.zb.vo.user.UserLevelRankResponseVo;
