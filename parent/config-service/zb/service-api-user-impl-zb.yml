@@ -59,3 +59,10 @@ spring:
     multipart:
       max-file-size: 20Mb
       max-request-size: 20Mb
+
+user:
+  file:
+      img:
+        local:  /data/img/
+#        local:  D:/img/
+        remote: http://img.qstuanwei.com/data/img/

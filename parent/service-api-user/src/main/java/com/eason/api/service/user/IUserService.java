@@ -1,5 +1,6 @@
 package com.eason.api.service.user;
 
+import com.eason.api.base.vo.model.FileItemModel;
 import com.eason.api.service.user.exception.UserServiceException;
 import com.eason.api.service.user.vo.code.UserCodeRequestVo;
 import com.eason.api.service.user.vo.code.UserCodeResponseVo;
@@ -7,6 +8,8 @@ import com.eason.api.service.user.vo.login.LoginRequestVo;
 import com.eason.api.service.user.vo.login.LoginResponseVo;
 import com.eason.api.service.user.vo.register.RegisterRequestVo;
 import com.eason.api.service.user.vo.register.RegisterResponseVo;
+import com.eason.api.service.user.vo.user.UserInfoRequestVo;
+import com.eason.api.service.user.vo.user.UserInfoResponseVo;
 
 /**
  * @apiDefine user 用户接入API
@@ -115,6 +118,42 @@ public interface IUserService {
 	 *
 	 */
 	public UserCodeResponseVo getValidateCode(UserCodeRequestVo userCodeRequestVo) throws UserServiceException;
+
+	/**
+	 * @apiVersion 1.0.0
+	 * @apiGroup user
+	 * @apiPermission Android/IOS
+	 * @api {POST} /user/edit 用户信息更新
+	 * @apiName edit
+	 *
+	 * @apiDescription
+	 * >	用户接入API - 用户信息更新</br>
+	 * >用户信息更新接口</br>
+	 * >（1）验证参数：是否合法</br>
+	 * >（2）支持昵称更新</br>
+	 * >（3）支持性别更新</br>
+	 * >（4）支持生日更新</br>
+	 * >（5）支持个性签名更新</br>
+	 * @apiSuccess {String} phone  手机号
+	 *
+	 * @apiSuccess {String} userId  用户id
+	 * @apiSuccess {String} result  更新信息
+	 *
+	 */
+	public UserInfoResponseVo edit(Integer userId, UserInfoRequestVo requestVo) throws UserServiceException;
+
+	/**
+	 * @apiVersion 1.0.0
+	 * @apiGroup room
+	 * @apiPermission Android/IOS
+	 * @api {POST} /user/uploadAvatar 上传用户头像
+	 * @apiName uploadAvatar
+	 * @apiDescription > 进入主播开播界面，设置直播房间封面</br>
+	 *
+	 * @apiParam {byte[]} fileImg  用户头像
+	 * @apiSuccess {String} imgUrl 	上传地址
+	 */
+	public String uploadAvatar(Integer userId, FileItemModel fileImg) throws UserServiceException;
 
 
 }

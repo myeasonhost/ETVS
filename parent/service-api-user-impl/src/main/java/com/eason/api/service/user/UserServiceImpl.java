@@ -1,5 +1,6 @@
 package com.eason.api.service.user;
 
+import com.eason.api.base.vo.model.FileItemModel;
 import com.eason.api.mapper.UserCodePoMapper;
 import com.eason.api.mapper.UserInfoPoMapper;
 import com.eason.api.mapper.VerifyCodeLogMapper;
@@ -14,20 +15,27 @@ import com.eason.api.service.user.vo.login.LoginRequestVo;
 import com.eason.api.service.user.vo.login.LoginResponseVo;
 import com.eason.api.service.user.vo.register.RegisterRequestVo;
 import com.eason.api.service.user.vo.register.RegisterResponseVo;
+import com.eason.api.service.user.vo.user.UserInfoRequestVo;
+import com.eason.api.service.user.vo.user.UserInfoResponseVo;
 import com.eason.api.utils.TokenUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user")
@@ -44,6 +52,11 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    @Value("${user.file.img.local}")
+    private String fileImgLocal;
+    @Value("${user.file.img.remote}")
+    private String fileImgRemote;
 
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     @Override
@@ -177,7 +190,7 @@ public class UserServiceImpl implements IUserService {
             }
             String token = TokenUtil.getToken();
             response.setToken(token);
-            stringRedisTemplate.boundHashOps("user_api_token").put(userPo.getId()+"",token);
+            stringRedisTemplate.opsForValue().set("token:"+token,userPo.getId()+"",24, TimeUnit.HOURS);
 
             //3更新用户登陆时间
             userPo.setUpdatedAt(new Date());
@@ -361,4 +374,64 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @RequestMapping(value = "/edit",method = RequestMethod.POST)
+    @Override
+    public UserInfoResponseVo edit(Integer userId, UserInfoRequestVo requestVo) throws UserServiceException {
+        UserInfoResponseVo response = new UserInfoResponseVo();
+        try{
+            //参数验证
+            if (userId == null){
+                throw new UserServiceException("用户id不能为空");
+            }
+            //插入参数进行更新
+            UserInfoPo userInfoPo = this.userMapper.selectByPrimaryKey(userId);
+            if (userInfoPo == null){
+                throw new UserServiceException("用户id不存在");
+            }
+            if(userInfoPo!=null){
+                if(!StringUtils.isBlank(requestVo.getNickname())){
+                    userInfoPo.setNickname(requestVo.getNickname().trim());
+                }
+                if(requestVo.getSex()!=null){
+                    userInfoPo.setSex(requestVo.getSex());
+                }
+                if(requestVo.getBirthday()!=null){
+                    userInfoPo.setBirthday(new Date(requestVo.getBirthday()));
+                }
+                if(!StringUtils.isBlank(requestVo.getSignature())){
+                    userInfoPo.setSignature(requestVo.getSignature());
+                }
+                this.userMapper.updateByPrimaryKey(userInfoPo);
+            }
+            response.setResult("更新成功！");
+        } catch(Exception e){
+            log.error("用户信息更新异常:userId=" + userId, e);
+            throw new UserServiceException(e.getMessage());
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/uploadAvatar",method = RequestMethod.POST)
+    @Override
+    public String uploadAvatar(Integer userId, FileItemModel fileImg) throws UserServiceException {
+        try {
+            //参数验证
+            if (userId == null){
+                throw new UserServiceException("用户id不能为空");
+            }
+            //插入参数进行更新
+            UserInfoPo userInfoPo = this.userMapper.selectByPrimaryKey(userId);
+            if (userInfoPo == null){
+                throw new UserServiceException("用户id不存在");
+            }
+
+            FileCopyUtils.copy(fileImg.getContent(), new File(fileImgLocal + fileImg.getFileName()));
+            String pic = fileImgRemote + fileImg.getFileName();
+            userInfoPo.setAvatar(pic);
+            this.userMapper.updateByPrimaryKey(userInfoPo);
+            return fileImgRemote + fileImg.getFileName();
+        } catch (IOException e) {
+            throw new UserServiceException(e.getMessage());
+        }
+    }
 }
