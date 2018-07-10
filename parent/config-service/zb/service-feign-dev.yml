@@ -5,7 +5,7 @@ logging.level.com.eason: ERROR
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:8771/eureka/
 server:
   port: 8773
 spring:

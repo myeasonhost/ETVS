@@ -43,7 +43,7 @@ spring.redis.testOnBorrow:  false
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:8771/eureka/
 server:
   port: 8776
   tomcat:
