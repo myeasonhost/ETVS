@@ -2,6 +2,7 @@ package com.eason.api.user.web;
 
 import com.eason.api.base.vo.model.FileItemModel;
 import com.eason.api.base.vo.response.ResponseVo;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.service.user.exception.UserServiceException;
 import com.eason.api.service.user.vo.code.UserCodeRequestVo;
 import com.eason.api.service.user.vo.login.LoginRequestVo;
@@ -120,7 +121,9 @@ public class UserControler {
             }
             if (StringUtils.isNotEmpty(api_token)){
                 String id = stringRedisTemplate.opsForValue().get("token:"+api_token);
-                if (id != null) {
+                if (id == null) {
+                    throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
+                }else{
                     userId=Integer.parseInt(id);
                 }
             }
@@ -156,7 +159,9 @@ public class UserControler {
             }
             if (StringUtils.isNotEmpty(api_token)){
                 String id = stringRedisTemplate.opsForValue().get("token:"+api_token);
-                if (id != null) {
+                if (id == null) {
+                    throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
+                }else{
                     userId=Integer.parseInt(id);
                 }
             }
