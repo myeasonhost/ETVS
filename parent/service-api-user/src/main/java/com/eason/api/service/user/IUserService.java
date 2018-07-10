@@ -31,9 +31,9 @@ public interface IUserService {
 	 * >     B .  验证validateCode错误次数限制、验证码重试次数、是否正确等</br>
 	 * >（2）注册逻辑</br>
 	 *
-	 * @apiSuccess {String} phone  手机号
-	 * @apiSuccess {String} password 	 用户密码
-	 * @apiSuccess {String} validateCode 	 验证码
+	 * @apiParam {String} phone  手机号
+	 * @apiParam {String} password 	 用户密码
+	 * @apiParam {String} validateCode 	 验证码
 	 *
 	 * @apiSuccess {Integer} userId  用户ID
 	 * @apiSuccess {String} result  注册信息
@@ -56,8 +56,8 @@ public interface IUserService {
 	 * >     B .  验证password是否错误</br>
 	 * >（2）登陆逻辑判断</br>
 	 *
-	 * @apiSuccess {String} username  用户账号
-	 * @apiSuccess {String} password 	 用户密码
+	 * @apiParam {String} username  用户账号
+	 * @apiParam {String} password 	 用户密码
 	 *
 	 * @apiSuccess {Integer} userId  用户ID
 	 * @apiSuccess {String} username  登陆用户名
@@ -74,7 +74,7 @@ public interface IUserService {
 	 * @apiGroup user
 	 * @apiPermission Android/IOS
 	 * @api {POST} /user/reset 用户密码重置
-	 * @apiName register
+	 * @apiName reset
 	 *
 	 * @apiDescription
 	 * >	用户接入API - 用户密码重置	</br>
@@ -84,9 +84,9 @@ public interface IUserService {
 	 * >     B .  验证validateCode错误次数限制、验证码重试次数、是否正确等</br>
 	 * >（2）注册逻辑</br>
 	 *
-	 * @apiSuccess {String} phone  手机号
-	 * @apiSuccess {String} password 	 用户密码
-	 * @apiSuccess {String} validateCode 	 验证码
+	 * @apiParam {String} phone  手机号
+	 * @apiParam {String} password 	 用户密码
+	 * @apiParam {String} validateCode 	 验证码
 	 *
 	 * @apiSuccess {Integer} userId  用户ID
 	 * @apiSuccess {String} result  注册信息
@@ -111,7 +111,8 @@ public interface IUserService {
 	 * >（2）生成验证码逻辑</br>
 	 *>（3）实现验证码-消息推送（短信实现）</br>
 	 *
-	 * @apiSuccess {String} phone  手机号
+	 * @apiParam {String} phone  手机号
+	 * @apiParam {String} codeType  验证码类型1为注册 2为忘记密码
 	 *
 	 * @apiSuccess {String} code  用户验证码
 	 * @apiSuccess {String} result  注册信息
@@ -134,7 +135,11 @@ public interface IUserService {
 	 * >（3）支持性别更新</br>
 	 * >（4）支持生日更新</br>
 	 * >（5）支持个性签名更新</br>
-	 * @apiSuccess {String} phone  手机号
+	 * @apiParam {String} nickname  昵称（可选）
+	 * @apiParam {String} sex  性别（可选）
+	 * @apiParam {String} birthday  生日（可选）
+	 * @apiParam {String} signature  签名（可选）
+	 *
 	 *
 	 * @apiSuccess {String} userId  用户id
 	 * @apiSuccess {String} result  更新信息
@@ -144,13 +149,13 @@ public interface IUserService {
 
 	/**
 	 * @apiVersion 1.0.0
-	 * @apiGroup room
+	 * @apiGroup user
 	 * @apiPermission Android/IOS
 	 * @api {POST} /user/uploadAvatar 上传用户头像
 	 * @apiName uploadAvatar
 	 * @apiDescription > 进入主播开播界面，设置直播房间封面</br>
-	 *
-	 * @apiParam {byte[]} fileImg  用户头像
+	 *> 使用postman的选项的form-data的key=avatar 文件类型 可以测试</br>
+	 * @apiParam {byte[]} avatar  用户头像
 	 * @apiSuccess {String} imgUrl 	上传地址
 	 */
 	public String uploadAvatar(Integer userId, FileItemModel fileImg) throws UserServiceException;

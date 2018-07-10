@@ -387,7 +387,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getUserByAccount" parameterType="com.eason.api.po.user.UserInfoPo" resultMap="BaseResultMap">
+  <select id="getUserByAccount" parameterType="com.eason.api.po.user.UserInfoPo" resultType="BaseResultMap">
     SELECT
     <include refid="Base_Column_List" />
     FROM
