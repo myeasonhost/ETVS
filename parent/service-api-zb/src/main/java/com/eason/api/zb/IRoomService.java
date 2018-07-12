@@ -1,10 +1,8 @@
 package com.eason.api.zb;
 
-import com.eason.api.base.vo.model.FileItemModel;
 import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.vo.room.IsChargedResponseVo;
 import com.eason.api.zb.vo.room.RoomResponseVo;
-import com.eason.api.zb.vo.room.RoomSetResponseVo;
 import com.eason.api.zb.vo.room.RoomStatResponseVo;
 
 /**
@@ -144,56 +142,5 @@ public interface IRoomService {
      */
     public IsChargedResponseVo isCharged(Integer userId, Integer roomId) throws ServiceException;
 
-
-    /**
-     * @apiVersion 1.0.0
-     * @apiGroup room
-     * @apiPermission Android/IOS
-     * @api {GET} /room/{roomType}/getRoomSet 获取房间属性设置(暂时废弃)
-     * @apiName getRoomSet
-     * @apiDescription > 进入主播开播界面，动态展示开播前的房间设置参数</br>
-     * > （1）房间有参数的类型roomType=ticket，time，personal</br>
-     * @apiSuccess (ticket Success 200) {String="normal","ticket","time","personal","game"} roomType 	房间类型
-     * @apiSuccess (ticket Success 200) {Timestamp} startTime 开始时间
-     * @apiSuccess (ticket Success 200) {String} activityTime   继续时间=[30,60,90,120]
-     * @apiSuccess (ticket Success 200) {String} price   每分钟单价=[1,2,5,10]
-     *
-     * @apiSuccess (time Success 200) {String="normal","ticket","time","personal","game"} roomType 	房间类型
-     * @apiSuccess (time Success 200) {Timestamp} startTime 开始时间
-     * @apiSuccess (time Success 200) {String} activityTime   继续时间=[30,60,90,120]
-     * @apiSuccess (time Success 200) {String} price   门票单价=[20,50,100,120]
-     *
-     * @apiSuccess (personal Success 200) {String="normal","ticket","time","personal","game"} roomType 	房间类型
-     * @apiSuccess (personal Success 200) {Timestamp} startTime 开始时间
-     * @apiSuccess (personal Success 200) {Integer} activityTime   继续时间=[30,60,90,120]
-     * @apiSuccess (personal Success 200) {Integer} userId		贵宾的用户id=1
-     */
-    public RoomSetResponseVo getRoomSet(String roomType) throws ServiceException;
-
-
-    /**
-     * @apiVersion 1.0.0
-     * @apiGroup room
-     * @apiPermission Android/IOS
-     * @api {POST} /room/{roomId}/setRoomBackgroundImg 设置房间直播封面
-     * @apiName setRoomBackgroundImg
-     * @apiDescription > 进入主播开播界面，设置直播房间封面</br>
-     *
-     * @apiParam {byte[]} roomBackgroundImg  房间背景图
-     * @apiSuccess {String} imgUrl 	上传地址
-     */
-    public String setRoomBackgroundImg(Integer userId, Integer roomId, FileItemModel fileImg) throws ServiceException;
-
-    /**
-     * @apiVersion 1.0.0
-     * @apiGroup room
-     * @apiPermission Android/IOS
-     * @api {GET} /room/getRoomWaterMarkImg 获取房间水印
-     * @apiName getRoomWaterMarkImg
-     * @apiDescription > 进入直播间，开播的过程中获取房间水印</br>
-     *
-     * @apiSuccess {String} imgUrl 	水印地址
-     */
-    public String getRoomWaterMarkImg(Integer userId) throws ServiceException;
 
 }

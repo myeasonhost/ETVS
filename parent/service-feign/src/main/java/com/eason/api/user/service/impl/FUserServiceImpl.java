@@ -8,6 +8,7 @@ import com.eason.api.service.user.vo.login.LoginRequestVo;
 import com.eason.api.service.user.vo.login.LoginResponseVo;
 import com.eason.api.service.user.vo.register.RegisterRequestVo;
 import com.eason.api.service.user.vo.register.RegisterResponseVo;
+import com.eason.api.service.user.vo.user.UserDetailResponseVo;
 import com.eason.api.service.user.vo.user.UserInfoRequestVo;
 import com.eason.api.service.user.vo.user.UserInfoResponseVo;
 import com.eason.api.user.service.FUserService;
@@ -42,6 +43,11 @@ public class FUserServiceImpl implements FUserService {
 
     @Override
     public String uploadAvatar(Integer userId, FileItemModel fileImg) throws UserServiceException {
+        throw new UserServiceException();
+    }
+
+    @Override
+    public UserDetailResponseVo getDetail(Integer userId) throws UserServiceException {
         throw new UserServiceException();
     }
 }

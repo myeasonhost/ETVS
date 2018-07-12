@@ -13,6 +13,7 @@ import com.netflix.hystrix.exception.HystrixRuntimeException;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -119,13 +120,11 @@ public class UserControler {
             if (StringUtils.isEmpty(api_token)){
                 api_token = request.getParameter("token");
             }
-            if (StringUtils.isNotEmpty(api_token)){
-                String id = stringRedisTemplate.opsForValue().get("token:"+api_token);
-                if (id == null) {
-                    throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
-                }else{
-                    userId=Integer.parseInt(id);
-                }
+            String id = stringRedisTemplate.opsForValue().get("token:"+api_token);
+            if (id == null) {
+                throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
+            }else{
+                userId=Integer.parseInt(id);
             }
             ResponseVo responseVo = new ResponseVo(0, "操作成功");
             FileItemModel fileImg = new FileItemModel();
@@ -157,16 +156,46 @@ public class UserControler {
             if (StringUtils.isEmpty(api_token)){
                 api_token = request.getParameter("token");
             }
-            if (StringUtils.isNotEmpty(api_token)){
-                String id = stringRedisTemplate.opsForValue().get("token:"+api_token);
-                if (id == null) {
-                    throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
-                }else{
-                    userId=Integer.parseInt(id);
-                }
+            String id = stringRedisTemplate.opsForValue().get("token:"+api_token);
+            if (id == null) {
+                throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
+            }else{
+                userId=Integer.parseInt(id);
             }
             ResponseVo responseVo = new ResponseVo(0, "操作成功");
             responseVo.setData(userServiceImpl.edit(userId,requestVo));
+            return responseVo;
+        } catch (UserServiceException e) {
+            ResponseVo responseVo = new ResponseVo(401, e.getMessage());
+            responseVo.setData(new HashMap<>());
+            return responseVo;
+        } catch (HystrixRuntimeException e) {
+            ResponseVo responseVo = new ResponseVo(500, "服务器忙，请重试！");
+            responseVo.setData(new HashMap<>());
+            return responseVo;
+        } catch (Exception e) {
+            ResponseVo responseVo = new ResponseVo(500, e.getMessage());
+            responseVo.setData(new HashMap<>());
+            return responseVo;
+        }
+    }
+
+    @RequestMapping(value = "/getDetail", method = RequestMethod.POST)
+    public ResponseVo getDetail(HttpServletRequest request) {
+        try {
+            Integer userId=null;
+            String api_token=request.getHeader("token");
+            if (StringUtils.isEmpty(api_token)){
+                api_token = request.getParameter("token");
+            }
+            String id = stringRedisTemplate.opsForValue().get("token:"+api_token);
+            if (id == null) {
+                throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
+            }else{
+                userId=Integer.parseInt(id);
+            }
+            ResponseVo responseVo = new ResponseVo(0, "操作成功");
+            responseVo.setData(userServiceImpl.getDetail(userId));
             return responseVo;
         } catch (UserServiceException e) {
             ResponseVo responseVo = new ResponseVo(401, e.getMessage());

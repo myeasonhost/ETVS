@@ -1,8 +1,6 @@
 package com.eason.api.zb;
 
-import com.eason.api.zb.cache.ZbTRoomCron;
 import com.eason.api.zb.cache.ZbTRoomPlan;
-import com.eason.api.zb.dao.RoomCronDao;
 import com.eason.api.zb.dao.RoomPlanDao;
 import com.eason.api.zb.model.RedisFactory;
 import com.eason.api.zb.model.ZbConstant;
@@ -10,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -31,8 +28,6 @@ public class RedisTests {
     private RedisTemplate redisTemplate;
     @Autowired
     private RoomPlanDao roomPlanDao;
-    @Autowired
-    private RoomCronDao roomCronDao;
     @Autowired
     private RedisTemplate stringRedisTemplate10;
 

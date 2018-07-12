@@ -15,6 +15,7 @@ import com.eason.api.service.user.vo.login.LoginRequestVo;
 import com.eason.api.service.user.vo.login.LoginResponseVo;
 import com.eason.api.service.user.vo.register.RegisterRequestVo;
 import com.eason.api.service.user.vo.register.RegisterResponseVo;
+import com.eason.api.service.user.vo.user.UserDetailResponseVo;
 import com.eason.api.service.user.vo.user.UserInfoRequestVo;
 import com.eason.api.service.user.vo.user.UserInfoResponseVo;
 import com.eason.api.utils.TokenUtil;
@@ -376,7 +377,7 @@ public class UserServiceImpl implements IUserService {
 
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
     @Override
-    public UserInfoResponseVo edit(Integer userId, UserInfoRequestVo requestVo) throws UserServiceException {
+    public UserInfoResponseVo edit(Integer userId, @RequestBody UserInfoRequestVo requestVo) throws UserServiceException {
         UserInfoResponseVo response = new UserInfoResponseVo();
         try{
             //参数验证
@@ -403,6 +404,7 @@ public class UserServiceImpl implements IUserService {
                 }
                 this.userMapper.updateByPrimaryKey(userInfoPo);
             }
+            response.setUserId(userId);
             response.setResult("更新成功！");
         } catch(Exception e){
             log.error("用户信息更新异常:userId=" + userId, e);
@@ -413,7 +415,7 @@ public class UserServiceImpl implements IUserService {
 
     @RequestMapping(value = "/uploadAvatar",method = RequestMethod.POST)
     @Override
-    public String uploadAvatar(Integer userId, FileItemModel fileImg) throws UserServiceException {
+    public String uploadAvatar(Integer userId, @RequestBody FileItemModel fileImg) throws UserServiceException {
         try {
             //参数验证
             if (userId == null){
@@ -431,6 +433,43 @@ public class UserServiceImpl implements IUserService {
             this.userMapper.updateByPrimaryKey(userInfoPo);
             return fileImgRemote + fileImg.getFileName();
         } catch (IOException e) {
+            throw new UserServiceException(e.getMessage());
+        }
+    }
+
+    @RequestMapping(value = "/getDetail",method = RequestMethod.POST)
+    @Override
+    public UserDetailResponseVo getDetail(Integer userId) throws UserServiceException {
+        try {
+            //参数验证
+            if (userId == null){
+                throw new UserServiceException("用户id不能为空");
+            }
+            //插入参数进行更新
+            UserInfoPo userInfoPo = this.userMapper.selectByPrimaryKey(userId);
+            if (userInfoPo == null){
+                throw new UserServiceException("用户id不存在");
+            }
+
+            UserDetailResponseVo responseVo=new UserDetailResponseVo();
+            responseVo.setUserId(userId);
+            responseVo.setUsername(userInfoPo.getUsername());
+            responseVo.setNickname(userInfoPo.getNickname());
+            responseVo.setDeposit(userInfoPo.getDeposit().doubleValue());
+            responseVo.setPhone(userInfoPo.getPhone());
+            responseVo.setBirthday(userInfoPo.getBirthday());
+            responseVo.setSignage(userInfoPo.getSignage());
+            responseVo.setAvatar(userInfoPo.getAvatar());
+            responseVo.setLocation(userInfoPo.getLocation());
+            responseVo.setLevel(userInfoPo.getLevel());
+            responseVo.setSex(userInfoPo.getSex());
+            responseVo.setVip(userInfoPo.getVip());
+            responseVo.setStatus(userInfoPo.getStatus());
+            responseVo.setCreatedAt(userInfoPo.getCreatedAt());
+            responseVo.setChannel(userInfoPo.getChannel());
+
+            return responseVo;
+        } catch (Exception e) {
             throw new UserServiceException(e.getMessage());
         }
     }

@@ -126,114 +126,6 @@ public interface IZhuboService {
 	 */
 	public List<UserResponseVo> getGiftUserList(Integer zbId, String category) throws ServiceException;
 
-	/**
-	 * @apiVersion 1.0.0
-	 * @apiGroup zhubo
-	 * @apiPermission Android/IOS
-	 * @api {GET} /zhubo/getConfigInfo 获取房间配置信息
-	 * @apiName getConfigInfo
-	 *
-	 * @apiDescription
-	 * > 主播API - 获取房间配置信息</br>
-	 * > 获取房间配置信息业务流程</br>
-	 * > （1）验证参数：是否合法</br>
-	 * > （2）获取主播权限：</br>
-	 * >              A.判断主播是否被禁播；UI弹出提示框</br>
-	 * >              B.判断是否拥有 时常房间、门票房间、私密房间、游戏房间的开播权限</br>
-	 * > （3）获取房间属性：</br>
-	 *  >             A.查库—动态配置开播时间、持续时间、门票价格数据等</br>
-	 * >              B.配置UI—根据允许的类型从后台拉对应的房间配置数据，动态配置开播时间、持续时间、门票价格UI显示</br>
-	 * > （4）组建返回值：</br>
-	 *  >             A.如果有房间，返回上一次的房间配置信息（roomId,roomTitle,status,roomBackgroundImg），返回开房权限属性配置组装UI（Map）</br>
-	 * >              B.如果无房间，返回当前的房间配置信息（roomId,status,roomTitle=null,roomBackgroundImg=null），返回开房权限属性配置组装UI（Map）</br>
-	 *	>  实例：
-	 * >  "timeConf": {
-	 * > 			timeInterval": "1|2|3",
-	 * >  			startTime": 1527143992429,
-	 * >  			activityTimeList": "120|180|200",
-	 * >  			priceList": "10,20,30,50|50,60,70,80|90,100,110,120"
-	 * >  }
-	 * > 使用间隔符"|"区分：
-	 * > 当下拉框选择：120的时候，对应的单价为：10,20,30,50，对应的时间间隔为：1
-	 * > 当下拉框选择：180的时候，对应的单价为：50,60,70,80，对应的时间间隔为：2
-	 * > 当下拉框选择：200的时候，对应的单价为：90,100,110,120，对应的时间间隔为：3
-	 *
-	 * @apiSuccess {Integer} roomId  房间id
-	 * @apiSuccess {Integer=0,1,2,3}  roomStatus 房间状态(0=创建，1=直播中，2=未开播，3=回放中)
-	 * @apiSuccess {String="normal","ticket","time","personal","game"} roomType 	房间类型
-	 * @apiSuccess {String} roomTitle  房间标题=直播标题
-	 * @apiSuccess {String} roomBackgroundImg  房间背景图
-	 * @apiSuccess {String} download_url  下载地址
-	 * @apiSuccess {String} result  返回信息
-	 *
-	 * @apiSuccess (ticket Success 200) {String="normal","ticket","time","personal","game"} roomType 	房间类型
-	 * @apiSuccess (ticket Success 200) {Timestamp} startTime 开始时间
-	 * @apiSuccess (ticket Success 200) {String} activityTimeList   继续时间=180|120|200
-	 * @apiSuccess (ticket Success 200) {String} priceList   门票单价列表=10,20,30,50|50,60,70,80|90,100,110,120
-	 * @apiSuccess (ticket Success 200) {Integer} selectActivityTime   当前选择持续时间
-	 * @apiSuccess (ticket Success 200) {Integer} selectPrice   当前选择门票价格
-	 *
-	 * @apiSuccess (time Success 200) {String="normal","ticket","time","personal","game"} roomType 	房间类型
-	 * @apiSuccess (time Success 200) {Timestamp} startTime 开始时间
-	 * @apiSuccess (time Success 200) {String} activityTimeList   继续时间=180|120|200
-	 * @apiSuccess (time Success 200) {String} priceList   每分钟单价列表=10,20,30,50|50,60,70,80|90,100,110,120
-	 * @apiSuccess (time Success 200) {Integer} selectActivityTime   当前选择持续时间
-	 * @apiSuccess (time Success 200) {Integer} selectPrice   当前选择时常价格
-	 * @apiSuccess (time Success 200) {Integer} timeInterval   收费间隔
-	 *
-	 * @apiSuccess (personal Success 200) {String="normal","ticket","time","personal","game"} roomType 	房间类型
-	 * @apiSuccess (personal Success 200) {Timestamp} startTime 开始时间
-	 * @apiSuccess (personal Success 200) {Integer} activityTimeList   继续时间=180|120|200
-	 * @apiSuccess (personal Success 200) {Integer} userId		贵宾的用户id=1
-	 * @apiSuccess (personal Success 200) {Integer} selectActivityTime   当前选择持续时间
-	 *
-	 */
-	public ReadyPlayResponseVo getConfigInfo(Integer userId, String token) throws ServiceException;
-
-	/**
-	 * @apiVersion 1.0.0
-	 * @apiGroup zhubo
-	 * @apiPermission Android/IOS
-	 * @api {POST} /zhubo/changeRoom 更改房间类型信息
-	 * @apiName changeRoom
-	 *
-	 * @apiDescription
-	 * > 主播API - 更改房间类型信息</br>
-	 * > 更改房间类型信息流程</br>
-	 * > （1）验证参数：是否合法</br>
-	 * > （2）验证房间状态：</br>
-	 * >             A.未开播（=2）直接返回</br>
-	 * >             B.直播中（=1）直接进入直播间，更新DB+缓存直播标题 等数据</br>
-	 * > （3）维护表：zb_t_room与zb_t_room_plan</br>
-	 * >             A.查询当前房间场次，确保缓存中没场次（用户没有直播），直接返回</br>
-	 * >             B.如果有场次，更新存储到缓存 房间信息，主播信息（主播昵称、等级、主播头像等），房间属性配置信息，场次信息</br>
-	 * > （4）组件返回值：</br>
-	 * >             A.planId,status,result</br>
-	 *
-	 * @apiParam (ticket) {String="normal","ticket","time","personal","game"} roomType 	房间类型
-	 * @apiParam (ticket) {String{0..10}} roomTitle 房间标题
-	 * @apiParam (ticket)  {Long} startTime 开始时间（时间戳）
-	 * @apiParam (ticket)  {Integer} activityTime   继续时间=30,60,90,120  其中选择值
-	 * @apiParam (ticket)  {Integer} price   门票单价=10,20,30,50|50,60,70,80|90,100,110,120  其中选择值
-	 *
-	 * @apiParam (time) {String="normal","ticket","time","personal","game"} roomType 	房间类型
-	 * @apiParam (time) {String{0..10}} roomTitle 房间标题
-	 * @apiParam (time)  {Long} startTime 开始时间（时间戳）
-	 * @apiParam (time)  {Integer} activityTime   继续时间=30,60,90,120  其中选择值
-	 * @apiParam (time)  {Integer} price   每分钟单价=10,20,30,50|50,60,70,80|90,100,110,120  其中选择值
-	 *
-	 * @apiParam (personal) {String="normal","ticket","time","personal","game"} roomType 	房间类型
-	 * @apiParam (personal) {String{0..10}} roomTitle 房间标题
-	 * @apiParam (personal)  {Long} startTime 开始时间（时间戳）
-	 * @apiParam (personal)  {Integer} activityTime   继续时间=30,60,90,120  其中选择值
-	 * @apiParam (personal)  {Integer} userId		贵宾的用户id=1
-	 *
-	 * @apiSuccess {Integer} planId  场次Id
-	 * @apiSuccess {Integer} roomStatus 0=创建，1=直播中，2=未开播，3=回放中
-	 * @apiSuccess {String} result  开播成功或失败
-	 *
-	 */
-	public StartPlayResponseVo changeRoom(Integer userId, StartPlayRequestVo startPlayRequestVo) throws ServiceException;
 
 	/**
 	 * @apiVersion 1.0.0
@@ -388,21 +280,6 @@ public interface IZhuboService {
 	 */
 	public String overPlay(Integer userId,Integer planId) throws ServiceException;
 
-	/**
-	 * @apiVersion 1.0.0
-	 * @apiGroup zhubo
-	 * @apiPermission Android/IOS
-	 * @api {GET} /zhubo/saveVideo/{planId} 保存回放
-	 * @apiName saveVideo
-	 *
-	 * @apiDescription
-	 * > 点击是否保存回放，结束直播</br>
-	 * > （1）记录直播视频状态is_video=1，保持回放</br>
-	 *
-	 * @apiSuccess {String} result  退出成功或者失败
-	 *
-	 */
-	public String saveVideo(Integer userId,Integer planId) throws ServiceException;
 
 	/**
 	 * @apiVersion 1.0.0

@@ -1,7 +1,5 @@
 package com.eason.api.zb.vo.zhubo;
 
-import com.eason.api.zb.vo.platform.IMResponseVo;
-import com.eason.api.zb.vo.platform.MediaResponseVo;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -18,8 +16,6 @@ public class ReadyPlayResponseVo implements Serializable {
     private Timestamp openTime;         //开播时间（如果有）
     private String download_url;    //下载地址
     private String result;
-    private MediaResponseVo media=new MediaResponseVo();
-    private IMResponseVo im=new IMResponseVo();
 
     private Map<String,Object> ticketConf=new HashMap<>();
     private Map<String,Object> timeConf=new HashMap<>();
@@ -67,21 +63,6 @@ public class ReadyPlayResponseVo implements Serializable {
         this.roomBackgroundImg = roomBackgroundImg;
     }
 
-    public MediaResponseVo getMedia() {
-        return media;
-    }
-
-    public void setMedia(MediaResponseVo media) {
-        this.media = media;
-    }
-
-    public IMResponseVo getIm() {
-        return im;
-    }
-
-    public void setIm(IMResponseVo im) {
-        this.im = im;
-    }
 
     public Timestamp getOpenTime() {
         return openTime;

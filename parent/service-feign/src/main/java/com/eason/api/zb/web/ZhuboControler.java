@@ -4,7 +4,6 @@ import com.eason.api.base.vo.response.ResponseVo;
 import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.service.FLiveUrlService;
 import com.eason.api.zb.service.FZhuboService;
-import com.eason.api.zb.vo.platform.MediaResponseVo;
 import com.eason.api.zb.vo.zhubo.ReadyPlayResponseVo;
 import com.eason.api.zb.vo.zhubo.StartPlayRequestVo;
 import com.netflix.hystrix.exception.HystrixRuntimeException;
@@ -381,8 +380,8 @@ public class ZhuboControler {
             String pushUrl=liveUrlServiceImpl.getPushUrl(readyPlayResponseVo.getRoomId()+"");
             String playUrl=liveUrlServiceImpl.getPlayUrl(readyPlayResponseVo.getRoomId()+"");
 
-            MediaResponseVo mediaResponseVo=new MediaResponseVo("1", pushUrl, playUrl,api_token);
-            readyPlayResponseVo.setMedia(mediaResponseVo);
+//            MediaResponseVo mediaResponseVo=new MediaResponseVo("1", pushUrl, playUrl,api_token);
+//            readyPlayResponseVo.setMedia(mediaResponseVo);
 
             responseVo.setData(readyPlayResponseVo);
             return responseVo;

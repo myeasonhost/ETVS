@@ -51,7 +51,7 @@ public class RequestFilter extends ZuulFilter {
 //            String headValue = request.getHeader(headerName);
 //            log.info(String.format("请求Head—>%s=%s",headerName,headValue));
 //        }
-        log.info(String.format("请求Head—>%s=%s","token",request.getHeader("api_token")));
+        log.info(String.format("请求Head—>%s=%s","token",request.getHeader("token")));
         Map<String,Object> map = new HashMap();
         Enumeration<String> paramNames = request.getParameterNames();
         while (paramNames.hasMoreElements()) {

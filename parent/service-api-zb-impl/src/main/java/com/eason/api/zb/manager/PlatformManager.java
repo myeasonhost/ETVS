@@ -1,7 +1,6 @@
 package com.eason.api.zb.manager;
 
 import com.eason.api.common.util.HttpClientUtils;
-import com.eason.api.zb.dao.RoomDeleteLogDao;
 import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.model.IMConfigModel;
 import com.eason.api.zb.model.MediaConfigModel;
@@ -26,9 +25,6 @@ public class PlatformManager {
     private MediaConfigModel mediaConfigModel;
     @Autowired
     private IMConfigModel imConfigModel;
-    @Autowired
-    private RoomDeleteLogDao roomDeleteLogDao;
-
 
 //    public String getMediaAccessToken() throws ServiceException {
 //        try {

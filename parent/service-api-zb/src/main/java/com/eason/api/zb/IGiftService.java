@@ -6,7 +6,7 @@ import com.eason.api.zb.vo.gift.*;
 import java.util.List;
 
 /**
- * @apiDefine gift 礼物API
+ * @apiDefine gift  礼物API
  */
 public interface IGiftService {
 		

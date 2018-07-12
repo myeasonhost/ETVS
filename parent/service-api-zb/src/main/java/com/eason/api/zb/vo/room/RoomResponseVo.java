@@ -1,7 +1,6 @@
 package com.eason.api.zb.vo.room;
 
-import com.eason.api.zb.vo.platform.IMResponseVo;
-import com.eason.api.zb.vo.platform.MediaResponseVo;
+
 import com.eason.api.zb.vo.user.UserLevelRankResponseVo;
 import com.eason.api.zb.vo.user.UserResponseVo;
 
@@ -30,11 +29,6 @@ public class RoomResponseVo implements Serializable {
     private Double diamondBalance;    //  用户钻石余额
     private Integer isCharge;           //是否收费
     private String download_url;    //下载地址
-//    private List<UserResponseVo> diamondRankList;
-//    private List<UserLevelRankResponseVo> userLevelRankList;
-
-    private MediaResponseVo media;
-    private IMResponseVo im;
 
     public Integer getUserId() {
         return userId;
@@ -186,22 +180,6 @@ public class RoomResponseVo implements Serializable {
 
     public void setDownload_url(String download_url) {
         this.download_url = download_url;
-    }
-
-    public MediaResponseVo getMedia() {
-        return media;
-    }
-
-    public void setMedia(MediaResponseVo media) {
-        this.media = media;
-    }
-
-    public IMResponseVo getIm() {
-        return im;
-    }
-
-    public void setIm(IMResponseVo im) {
-        this.im = im;
     }
 
     public Integer getIsCharge() {

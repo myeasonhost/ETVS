@@ -16,7 +16,7 @@ public interface IIndexService {
 	/**
 	 * @apiVersion 1.0.0
 	 * @apiGroup index
-	 * @api {GET} /index/{category}/getIndexList/{position}/{pageSize} 房间列表
+	 * @api {GET} /index/{category}/getIndexList/{position}/{pageSize} 1.房间列表
 	 * @apiName getIndexList
 	 *
 	 *
@@ -29,7 +29,7 @@ public interface IIndexService {
 	 *   > (2)录播类型=发布日期（近-远），被观看次数、收费价格（普通房间不显示）、主播昵称、开播信息</br>
 	 * > 【付费=4】：砖石数排序（大-小）,开播标题、房间类型、房间人数（真实人数和机器人数）、网络状态（API不提供）</br>
 	 * > 【游戏=5】：房间游戏投注数排序（大-小）,主播昵称、开播标题、游戏类型、参与人数（如上第二条解释）、网络状态（API不提供）</br>
-	 *
+	 * > 没有这么多需求，默认就传category=1
 	 * @apiSuccess {Integer} total 		总数
 	 * @apiSuccess {Integer} rows 		rows->row
 	 * @apiSuccess {Integer} row.roomId 		房间ID
@@ -56,14 +56,14 @@ public interface IIndexService {
 	/**
 	 * @apiVersion 1.0.0
 	 * @apiGroup index
-	 * @api {GET} /index/{category}/getBannerList 直播首页Banner列表
+	 * @api {GET} /index/{category}/getBannerList 2.直播首页Banner列表
 	 * @apiName getBannerList
 	 *
 	 *
 	 * @apiDescription
 	 * > 需要显示Banner的模块：最新、最热</br>
      * >category 房间分类：1=最热（默认）、2=收藏、3=最新、4=付费、5=游戏</br>
-	 *
+	 * > 没有这么多需求，默认就传category=1
 	 *
 	 * @apiSuccess {Integer} id 	BannerID
 	 * @apiSuccess {String} title 	Banner标题
@@ -78,14 +78,14 @@ public interface IIndexService {
 	/**
 	 * @apiVersion 1.0.0
 	 * @apiGroup index
-	 * @api {GET} /index/{category}/getMsgNotificationList 公告消息列表
+	 * @api {GET} /index/{category}/getMsgNotificationList 3.公告消息列表
 	 * @apiName getMsgNotificationList
 	 *
 	 *
 	 * @apiDescription
 	 * > 需要显示MsgNotification的模块：最新、最热</br>
      * >category 房间分类：1=最热（默认）、2=收藏、3=最新、4=付费、5=游戏</br>
-	 *
+	 *> 没有这么多需求，默认就传category=1
 	 *
 	 * @apiSuccess {Integer} id 		公告消息ID
 	 * @apiSuccess {String} title 	公告消息内容

@@ -43,19 +43,6 @@ public interface IUserService {
      */
     public String isAttention(Integer userId, Integer channel,String userIds, Boolean isAttention) throws ServiceException;
 
-    /**
-     * @apiVersion 1.0.0
-     * @apiGroup user
-     * @apiPermission Android/IOS
-     * @api {GET} /user/isBook/{zbId}/{isBook} 预约/取消预约
-     * @apiName isBook
-     * @apiDescription > 用户提前预约主播，进行私密userId传递，主播可以根据userId进行私密直播</br>
-     * > isBook=true,false </br>
-     * > true代表 需要预约，zbId是主播id
-     * > false代表 取消预约，zbId是主播id
-     * @apiSuccess {String} result	四种情况：预约成功，已经预约，取消成功，并未预约
-     */
-    public String isBook(Integer userId, Integer zbId, Boolean isBook) throws ServiceException;
 
     /**
      * @apiVersion 1.0.0

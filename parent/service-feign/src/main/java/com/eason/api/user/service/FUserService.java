@@ -9,6 +9,7 @@ import com.eason.api.service.user.vo.login.LoginRequestVo;
 import com.eason.api.service.user.vo.login.LoginResponseVo;
 import com.eason.api.service.user.vo.register.RegisterRequestVo;
 import com.eason.api.service.user.vo.register.RegisterResponseVo;
+import com.eason.api.service.user.vo.user.UserDetailResponseVo;
 import com.eason.api.service.user.vo.user.UserInfoRequestVo;
 import com.eason.api.service.user.vo.user.UserInfoResponseVo;
 import com.eason.api.zb.service.impl.FUserServiceImpl;
@@ -37,4 +38,7 @@ public interface FUserService extends IUserService {
 
     @RequestMapping(value = "/user/uploadAvatar", method = RequestMethod.POST)
     String uploadAvatar(@RequestParam(value = "userId")  Integer userId, @RequestBody  FileItemModel fileImg) throws UserServiceException;
+
+    @RequestMapping(value = "/user/getDetail", method = RequestMethod.POST)
+    UserDetailResponseVo getDetail(@RequestParam(value = "userId")  Integer userId) throws UserServiceException;
 }

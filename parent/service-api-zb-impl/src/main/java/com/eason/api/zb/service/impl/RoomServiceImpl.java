@@ -1,19 +1,14 @@
 package com.eason.api.zb.service.impl;
 
 import com.eason.api.base.vo.model.FileItemModel;
-import com.eason.api.common.util.AESOperator;
-import com.eason.api.zb.IRoomService;
-import com.eason.api.zb.cache.ZbTRoomConf;
-import com.eason.api.zb.cache.ZbTRoomPlan;
-import com.eason.api.zb.cache.ZbTUserPersonal;
-import com.eason.api.zb.cache.ZbTUserTicket;
-import com.eason.api.zb.dao.*;
 import com.eason.api.exception.ServiceException;
+import com.eason.api.zb.IRoomService;
+import com.eason.api.zb.cache.ZbTRoomPlan;
+import com.eason.api.zb.dao.*;
 import com.eason.api.zb.manager.ConfigManager;
 import com.eason.api.zb.manager.RoomManager;
 import com.eason.api.zb.model.ZbConstant;
 import com.eason.api.zb.po.*;
-import com.eason.api.zb.vo.platform.IMResponseVo;
 import com.eason.api.zb.vo.room.IsChargedResponseVo;
 import com.eason.api.zb.vo.room.RoomResponseVo;
 import com.eason.api.zb.vo.room.RoomSetResponseVo;
@@ -48,13 +43,7 @@ public class RoomServiceImpl implements IRoomService {
     @Autowired
     private RoomPlanDao roomPlanDao;
     @Autowired
-    private RoomConfDao roomConfDao;
-    @Autowired
     private RoomPlanStatDao roomPlanStatDao;
-    @Autowired
-    private UserTicketDao userTicketDao;
-    @Autowired
-    private UserPersonalDao userPersonalDao;
     @Autowired
     private UcUserDao ucUserDao;
     @Autowired
@@ -184,16 +173,16 @@ public class RoomServiceImpl implements IRoomService {
             //（8）TODO 用户进入房间，消息推送：调用IM消息推送接口
 
             //（9）从缓存里面，获取IM与Media地址：
-            ZbTRoomConf zbTRoomConf = this.roomConfDao.findByRoomId(roomId);
-            if (zbTRoomConf == null) {
-                throw new ServiceException("缓存无法获取当前房间的IM地址");
-            }
-            IMResponseVo imResponseVo = zbTRoomConf.getImInfo();
-            //把用户拉流地址，换成url的形式，避免客户端改动
-            if (imResponseVo!=null){
-                imResponseVo.setUrl(AESOperator.encrypt(imResponseVo.getUrl()));
-            }
-            responseVo.setIm(imResponseVo);
+//            ZbTRoomConf zbTRoomConf = this.roomConfDao.findByRoomId(roomId);
+//            if (zbTRoomConf == null) {
+//                throw new ServiceException("缓存无法获取当前房间的IM地址");
+//            }
+//            IMResponseVo imResponseVo = zbTRoomConf.getImInfo();
+//            //把用户拉流地址，换成url的形式，避免客户端改动
+//            if (imResponseVo!=null){
+//                imResponseVo.setUrl(AESOperator.encrypt(imResponseVo.getUrl()));
+//            }
+//            responseVo.setIm(imResponseVo);
 
             responseVo.setIsCharge(0);  //0=不收费
             //新增收费房间是否收费字段
@@ -271,18 +260,18 @@ public class RoomServiceImpl implements IRoomService {
             zbTRoomPlanStat.setCreate_Time(new Timestamp(System.currentTimeMillis()));
             this.roomPlanStatDao.save(zbTRoomPlanStat);
             //（3.1）清除该房间场次信息缓存，清楚该场次的门票、预约
-            if (ZbConstant.Room.Type.personal.name().equals(zbTRoomPlan.getRoomType())) {
-                List<ZbTUserPersonal> zbTUserPersonal = userPersonalDao.findByZbId(zbTRoomPlan.getZbId());
-                zbTUserPersonal.forEach(zbTUserPersonal1 -> {
-                    this.userPersonalDao.delete(zbTUserPersonal1);
-                });
-            }
-            this.roomPlanDao.delete(zbTRoomPlan);
-            //（3.2）清除media+im缓存信息
-            ZbTRoomConf zbTRoomConf=this.roomConfDao.findByRoomId(roomId);
-            if (zbTRoomConf!=null){
-                this.roomConfDao.delete(zbTRoomConf);
-            }
+//            if (ZbConstant.Room.Type.personal.name().equals(zbTRoomPlan.getRoomType())) {
+//                List<ZbTUserPersonal> zbTUserPersonal = userPersonalDao.findByZbId(zbTRoomPlan.getZbId());
+//                zbTUserPersonal.forEach(zbTUserPersonal1 -> {
+//                    this.userPersonalDao.delete(zbTUserPersonal1);
+//                });
+//            }
+//            this.roomPlanDao.delete(zbTRoomPlan);
+//            //（3.2）清除media+im缓存信息
+//            ZbTRoomConf zbTRoomConf=this.roomConfDao.findByRoomId(roomId);
+//            if (zbTRoomConf!=null){
+//                this.roomConfDao.delete(zbTRoomConf);
+//            }
 
             //（4）更改房间状态status=1（直播中）—>2（未开播）
             this.roomDao.updateRoomStatusAndAndRoomTitle(zbTRoomPlan.getRoomId(), ZbConstant.Room.status.room_closed, zbTRoomPlan.getRoomTitle());
@@ -363,152 +352,61 @@ public class RoomServiceImpl implements IRoomService {
                 responseVo.setAllowTime((Integer) trySeeMap.get("allowTime"));
             }
 
-            if (ZbConstant.Room.Type.ticket.name().equals(zbTRoomPlan.getRoomType())) {
-                ZbTUserTicket zbTUserTicket = userTicketDao.findByPlanIdAndUserId(zbTRoomPlan.getPlanId(), userId);
-                if (zbTUserTicket == null) {
-                    responseVo.setTicketStatus(0);
-                } else {
-                    responseVo.setTicketStatus(1);
-                }
-                responseVo.setSelectPrice((Integer) zbTRoomPlan.getRoomSet().get("selectPrice"));
-
-            }
-
-            if (ZbConstant.Room.Type.time.name().equals(zbTRoomPlan.getRoomType())) {
-                responseVo.setSelectPrice((Integer) zbTRoomPlan.getRoomSet().get("selectPrice"));
-                responseVo.setTimeInterval((Integer) zbTRoomPlan.getRoomSet().get("timeInterval"));
-            }
-
-            if (ZbConstant.Room.Type.personal.name().equals(zbTRoomPlan.getRoomType())) {
-                ZbTUserPersonal zbTUserPersonal = userPersonalDao.findByUserIdAndZbId(userId, zbTRoomPlan.getZbId());
-                if (zbTUserPersonal == null) {
-                    responseVo.setPersonalStatus(0);
-                } else {
-                    responseVo.setPersonalStatus(1);
-                }
-                responseVo.setIsTrySee(null);
-                responseVo.setAllowTime(null);
-            }
-            responseVo.setIsCharge(0);  //0=不收费
-            //新增收费房间是否收费字段
-            if (zbTRoomPlan.getRoomType().equals(ZbConstant.Room.Type.time.name()) || zbTRoomPlan.getRoomType().equals(ZbConstant.Room.Type.ticket.name())
-                    || zbTRoomPlan.getRoomType().equals(ZbConstant.Room.Type.personal.name()) ){
-                Map<String,Object> map=zbTRoomPlan.getRoomSet();
-                if (map!=null && !map.isEmpty()){
-                    Date startTime=(Date) map.get("startTime");
-                    Date overTime=(Date) map.get("overTime");
-                    Date now=new Date();
-                    Integer selectActivityTime = (Integer) map.get("selectActivityTime");
-                    if (now.compareTo(startTime)>=0 && now.compareTo(overTime)<=0){
-                        responseVo.setIsCharge(1);  //1=收费
-                        long t = overTime.getTime() - now.getTime();
-                        long remainTime = 0;
-                        long activityTime = selectActivityTime* 60000;
-                        if (t > 0) {
-                            remainTime = t;  //1分钟=60000
-                            if (t > activityTime) {
-                                remainTime = activityTime;
-                            }
-                        }
-                        responseVo.setUsedTime(activityTime-remainTime);
-                        responseVo.setRemainTime(remainTime);
-                    }
-                }
-            }
+//            if (ZbConstant.Room.Type.ticket.name().equals(zbTRoomPlan.getRoomType())) {
+//                ZbTUserTicket zbTUserTicket = userTicketDao.findByPlanIdAndUserId(zbTRoomPlan.getPlanId(), userId);
+//                if (zbTUserTicket == null) {
+//                    responseVo.setTicketStatus(0);
+//                } else {
+//                    responseVo.setTicketStatus(1);
+//                }
+//                responseVo.setSelectPrice((Integer) zbTRoomPlan.getRoomSet().get("selectPrice"));
+//
+//            }
+//
+//            if (ZbConstant.Room.Type.time.name().equals(zbTRoomPlan.getRoomType())) {
+//                responseVo.setSelectPrice((Integer) zbTRoomPlan.getRoomSet().get("selectPrice"));
+//                responseVo.setTimeInterval((Integer) zbTRoomPlan.getRoomSet().get("timeInterval"));
+//            }
+//
+//            if (ZbConstant.Room.Type.personal.name().equals(zbTRoomPlan.getRoomType())) {
+//                ZbTUserPersonal zbTUserPersonal = userPersonalDao.findByUserIdAndZbId(userId, zbTRoomPlan.getZbId());
+//                if (zbTUserPersonal == null) {
+//                    responseVo.setPersonalStatus(0);
+//                } else {
+//                    responseVo.setPersonalStatus(1);
+//                }
+//                responseVo.setIsTrySee(null);
+//                responseVo.setAllowTime(null);
+//            }
+//            responseVo.setIsCharge(0);  //0=不收费
+//            //新增收费房间是否收费字段
+//            if (zbTRoomPlan.getRoomType().equals(ZbConstant.Room.Type.time.name()) || zbTRoomPlan.getRoomType().equals(ZbConstant.Room.Type.ticket.name())
+//                    || zbTRoomPlan.getRoomType().equals(ZbConstant.Room.Type.personal.name()) ){
+//                Map<String,Object> map=zbTRoomPlan.getRoomSet();
+//                if (map!=null && !map.isEmpty()){
+//                    Date startTime=(Date) map.get("startTime");
+//                    Date overTime=(Date) map.get("overTime");
+//                    Date now=new Date();
+//                    Integer selectActivityTime = (Integer) map.get("selectActivityTime");
+//                    if (now.compareTo(startTime)>=0 && now.compareTo(overTime)<=0){
+//                        responseVo.setIsCharge(1);  //1=收费
+//                        long t = overTime.getTime() - now.getTime();
+//                        long remainTime = 0;
+//                        long activityTime = selectActivityTime* 60000;
+//                        if (t > 0) {
+//                            remainTime = t;  //1分钟=60000
+//                            if (t > activityTime) {
+//                                remainTime = activityTime;
+//                            }
+//                        }
+//                        responseVo.setUsedTime(activityTime-remainTime);
+//                        responseVo.setRemainTime(remainTime);
+//                    }
+//                }
+//            }
 
             return responseVo;
         } catch (IOException e) {
-            throw new ServiceException(e.getMessage());
-        }
-    }
-
-    @RequestMapping(value = "/{roomType}/getRoomSet", method = RequestMethod.GET)
-    @Override
-    public RoomSetResponseVo getRoomSet(@PathVariable(value = "roomType") String roomType) {
-        RoomSetResponseVo responseVo = new RoomSetResponseVo();
-        responseVo.setRoomType(roomType);
-//        if ("ticket".equals(roomType)) {
-//            Map<String, Object> target = new HashMap<>();
-//            target.put("startTime", new Timestamp(System.currentTimeMillis()));
-//            target.put("activityTime", "30,60,90,120");
-//            target.put("price", "1,2,5,10");
-//            return (RoomSetResponseVo) DynaBeanUtil.getTarget(responseVo, target);
-//        }
-//        if ("time".equals(roomType)) {
-//            Map<String, Object> target = new HashMap<>();
-//            target.put("startTime", new Timestamp(System.currentTimeMillis()));
-//            target.put("activityTime", "20,40,50,100");
-//            target.put("price", "2,3,5,7");
-//            return (RoomSetResponseVo) DynaBeanUtil.getTarget(responseVo, target);
-//        }
-//        if ("personal".equals(roomType)) {
-//            Map<String, Object> target = new HashMap<>();
-//            target.put("startTime", new Timestamp(System.currentTimeMillis()));
-//            target.put("activityTime", "30,60,90,120");
-//            target.put("userId", 1);
-//            return (RoomSetResponseVo) DynaBeanUtil.getTarget(responseVo, target);
-//        }
-        return responseVo;
-    }
-
-    /**
-     * 图片文件上传：
-     * （1）验证房间是否属于当前用户
-     * （2）房间背景图更新
-     * （3）场次背景图，如果有更新
-     *
-     * @param roomId
-     * @param fileImg
-     * @return
-     * @throws ServiceException
-     */
-    @RequestMapping(value = "/{roomId}/setRoomBackgroundImg", method = RequestMethod.POST)
-    @Override
-    public String setRoomBackgroundImg(Integer userId, @PathVariable(value = "roomId") Integer roomId, @RequestBody FileItemModel fileImg) throws ServiceException {
-        try {
-            ZbTZhubo zbTZhubo = this.zhuboDao.findByUserId(userId);
-            if (zbTZhubo == null) {
-                throw new ServiceException("您不是主播");
-            }
-            ZbTRoom zbTRoom = this.roomDao.findByZbId(zbTZhubo.getZbId());
-            if (zbTRoom == null) {
-                throw new ServiceException("您没有创建直播房间");
-            }
-            if (!zbTRoom.getRoomId().equals(roomId)) {
-                throw new ServiceException("您的直播间不是这个房间");
-            }
-            FileCopyUtils.copy(fileImg.getContent(), new File(fileImgLocal + fileImg.getFileName()));
-            String pic = fileImgRemote + fileImg.getFileName();
-            this.roomDao.updateRoomBgPic(roomId, pic);
-            ZbTRoomPlan zbTRoomPlan = this.roomPlanDao.findByRoomId(roomId);
-            if (zbTRoomPlan != null) {
-                zbTRoomPlan.setRoomBgPic(pic);
-                this.roomPlanDao.save(zbTRoomPlan);
-            }
-            return fileImgRemote + fileImg.getFileName();
-        } catch (IOException e) {
-            throw new ServiceException(e.getMessage());
-        }
-    }
-
-    /**
-     * （1）优先先从ROOM表里面拿
-     * （2）没有从房间属性表里面拿
-     * @param userId
-     * @return
-     * @throws ServiceException
-     */
-    @RequestMapping(value = "/getRoomWaterMarkImg", method = RequestMethod.GET)
-    @Override
-    public String getRoomWaterMarkImg(Integer userId) throws ServiceException {
-        try {
-            ZbTRoom zbTRoom=this.roomDao.findByZbUserId(userId);
-            if(StringUtils.isNotEmpty(zbTRoom.getRoomWatermark()) && !"".equals(zbTRoom.getRoomWatermark())){
-                return zbTRoom.getRoomWatermark();
-            }
-            ZbTRoomAttribute zbTRoomAttribute=this.roomAttributeDao.findByAttributeKey("room_watermark");
-            return zbTRoomAttribute.getAttributeValue();
-        } catch (Exception e) {
             throw new ServiceException(e.getMessage());
         }
     }

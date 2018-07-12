@@ -5,7 +5,6 @@ import com.eason.api.base.vo.response.ResponseVo;
 import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.service.FLiveUrlService;
 import com.eason.api.zb.service.FRoomService;
-import com.eason.api.zb.vo.platform.MediaResponseVo;
 import com.eason.api.zb.vo.room.RoomResponseVo;
 import com.netflix.hystrix.exception.HystrixRuntimeException;
 import org.apache.commons.lang.StringUtils;
@@ -148,9 +147,9 @@ public class RoomControler {
             String pushUrl=null;
             String playUrl=liveUrlServiceImpl.getPlayUrl(roomResponseVo.getRoomId()+"");
 
-            MediaResponseVo mediaResponseVo=new MediaResponseVo("1", pushUrl, playUrl,api_token);
-            roomResponseVo.setMedia(mediaResponseVo);
-            responseVo.setData(roomResponseVo);
+//            MediaResponseVo mediaResponseVo=new MediaResponseVo("1", pushUrl, playUrl,api_token);
+//            roomResponseVo.setMedia(mediaResponseVo);
+//            responseVo.setData(roomResponseVo);
             return responseVo;
         } catch (ServiceException e) {
             ResponseVo responseVo = new ResponseVo(401, e.getMessage());

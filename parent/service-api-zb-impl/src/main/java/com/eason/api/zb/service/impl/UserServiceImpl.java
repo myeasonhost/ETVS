@@ -2,7 +2,6 @@ package com.eason.api.zb.service.impl;
 
 import com.eason.api.zb.IUserService;
 import com.eason.api.zb.cache.ZbTRoomPlan;
-import com.eason.api.zb.cache.ZbTUserPersonal;
 import com.eason.api.zb.dao.*;
 import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.manager.ConfigManager;
@@ -39,8 +38,6 @@ public class UserServiceImpl implements IUserService {
     private UcUserDao ucUserDao;
     @Autowired
     private RoomPlanDao roomPlanDao;
-    @Autowired
-    private UserPersonalDao userPersonalDao;
     @Autowired
     private UserBlackDao userBlackDao;
     @Autowired
@@ -257,53 +254,6 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
-    /**
-     * 用户API - 预约/取消预约
-     * （1）主播参数验证
-     * （2）isBook=true，预约，插入缓存记录
-     * （3）isBook=false，取消预约，删除缓存记录
-     *
-     * @param userId
-     * @param zbId
-     * @param isBook
-     * @return
-     */
-    @RequestMapping(value = "/isBook/{zbId}/{isBook}", method = RequestMethod.GET)
-    @Override
-    public String isBook(Integer userId,  @PathVariable(value = "zbId") Integer zbId, @PathVariable(value = "isBook") Boolean isBook) throws ServiceException {
-        //（1）主播参数验证
-        ZbTZhubo zbTZhubo = this.zhuboDao.getOne(zbId);
-        if (zbTZhubo == null) {
-            throw new ServiceException("主播不存在");
-        }
-        if (zbTZhubo.getUserId().equals(userId)) {
-            throw new ServiceException("不能自己预约自己");
-        }
-        //（2）isBook=true，预约，插入缓存记录
-        if (isBook) {
-            ZbTUserPersonal zbTUserPersonal = this.userPersonalDao.findByUserIdAndZbId(userId, zbId);
-            if (zbTUserPersonal == null) {
-                zbTUserPersonal = new ZbTUserPersonal();
-                zbTUserPersonal.setUserId(userId);
-                zbTUserPersonal.setZbId(zbId);
-                zbTUserPersonal.setBookTime(new Date());
-                this.userPersonalDao.save(zbTUserPersonal);
-                return  "预约成功";
-            } else {
-                return "已经预约过了";
-            }
-
-
-        } else {
-            ZbTUserPersonal zbTUserPersonal = this.userPersonalDao.findByUserIdAndZbId(userId, zbId);
-            if (zbTUserPersonal != null) {
-                this.userPersonalDao.delete(zbTUserPersonal);
-                return "取消预约";
-            } else {
-                return "并未预约";
-            }
-        }
-    }
 
     /**
      * 用户API - 拉黑/取消拉黑

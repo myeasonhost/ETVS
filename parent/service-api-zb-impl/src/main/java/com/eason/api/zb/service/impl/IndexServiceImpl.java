@@ -44,8 +44,6 @@ public class IndexServiceImpl implements IIndexService {
     private RoomDao roomDao;
     @Autowired
     private UserAttentionDao userAttentionDao;
-    @Autowired
-    private RoomRecrecordDao roomRecrecordDao;
 
     @RequestMapping(value = "/{category}/getIndexList/{position}/{pageSize}",method = RequestMethod.GET)
     @Override
@@ -69,12 +67,6 @@ public class IndexServiceImpl implements IIndexService {
                 Sort sort = new Sort(Sort.Direction.DESC,"orderField").and(new Sort(Sort.Direction.DESC,"incomeAmountToday"));
                 PageRequest pageable = new PageRequest(position, pageSize, sort);
                 page=  roomPlanDao.findByUserIds(ids,pageable);
-                //直播间已经显示完全,新增回放
-                if (!page.hasNext()){
-                    if (!ids.isEmpty() && page.getNumberOfElements()!=0){
-                        logList= roomRecrecordDao.findAllByZbIds(ids); //TODO ids是用户id
-                    }
-                }
             }else if ("3".equals(category)){ //最新=3
                 Sort sort = new Sort(Sort.Direction.DESC,"orderField").and(new Sort(Sort.Direction.DESC,"openTime"));
                 Pageable pageable = new PageRequest(position, pageSize, sort);
