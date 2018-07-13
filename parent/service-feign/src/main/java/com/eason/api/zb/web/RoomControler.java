@@ -27,42 +27,6 @@ public class RoomControler {
     @Autowired
     private FLiveUrlService liveUrlServiceImpl;
 
-    @RequestMapping(value = "/{roomId}/isCharged", method = RequestMethod.GET)
-    public ResponseVo isCharged(@PathVariable Integer roomId, HttpServletRequest request) {
-        try {
-            Integer userId = null;
-            String api_token = request.getHeader("api_token");
-            if (StringUtils.isEmpty(api_token)) {
-                api_token = request.getParameter("token");
-            }
-            if (StringUtils.isNotEmpty(api_token)) {
-                BoundHashOperations<String, String, String> ops = stringRedisTemplate.boundHashOps("user_api_token");
-                String id = ops.get(api_token);
-                if (id == null) {
-                    throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
-                } else {
-                    userId = Integer.parseInt(id);
-                }
-            } else {
-                throw new ServiceException("您未登陆");
-            }
-            ResponseVo responseVo = new ResponseVo(0, "操作成功");
-            responseVo.setData(roomServiceImpl.isCharged(userId, roomId));
-            return responseVo;
-        } catch (ServiceException e) {
-            ResponseVo responseVo = new ResponseVo(401, e.getMessage());
-            responseVo.setData(new HashMap<>());
-            return responseVo;
-        } catch (HystrixRuntimeException e) {
-            ResponseVo responseVo = new ResponseVo(500, "服务器忙，请重试！");
-            responseVo.setData(new HashMap<>());
-            return responseVo;
-        } catch (Exception e) {
-            ResponseVo responseVo = new ResponseVo(500, e.getMessage());
-            responseVo.setData(new HashMap<>());
-            return responseVo;
-        }
-    }
 
     @RequestMapping(value = "/createRoom", method = RequestMethod.GET)
     public ResponseVo createRoom(HttpServletRequest request) {
@@ -136,21 +100,16 @@ public class RoomControler {
     @RequestMapping(value = "/{roomId}/enterRoom", method = RequestMethod.GET)
     public ResponseVo enterRoom(HttpServletRequest request, @PathVariable Integer roomId) {
         try {
-            Integer userId = null;
-            String api_token = request.getHeader("api_token");
-            if (StringUtils.isEmpty(api_token)) {
+            Integer userId=null;
+            String api_token=request.getHeader("token");
+            if (StringUtils.isEmpty(api_token)){
                 api_token = request.getParameter("token");
             }
-            if (StringUtils.isNotEmpty(api_token)) {
-                BoundHashOperations<String, String, String> ops = stringRedisTemplate.boundHashOps("user_api_token");
-                String id = ops.get(api_token);
-                if (id == null) {
-                    throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
-                } else {
-                    userId = Integer.parseInt(id);
-                }
-            } else {
-                throw new ServiceException("您未登陆");
+            String id = stringRedisTemplate.opsForValue().get("token:"+api_token);
+            if (id == null) {
+                throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
+            }else{
+                userId=Integer.parseInt(id);
             }
 
             ResponseVo responseVo = new ResponseVo(0, "操作成功");
