@@ -441,7 +441,7 @@
     ],
     "type": "GET",
     "url": "/live/getPlayUrl/{roomId}",
-    "title": "获取拉流地址",
+    "title": "2.获取拉流地址",
     "name": "getPlayUrl",
     "description": "<blockquote> <p>从缓存获取拉流地址</br></p> </blockquote>",
     "success": {
@@ -475,7 +475,7 @@
     ],
     "type": "GET",
     "url": "/live/getPlayUrlList",
-    "title": "获取拉流地址列表",
+    "title": "3.获取拉流地址列表",
     "name": "getPlayUrlList",
     "description": "<blockquote> <p>获取拉流地址列表</br></p> </blockquote>",
     "success": {
@@ -530,7 +530,7 @@
     ],
     "type": "GET",
     "url": "/live/getPushUrl/{roomId}",
-    "title": "获取推流地址",
+    "title": "1.获取推流地址",
     "name": "getPushUrl",
     "description": "<blockquote> <p>首次获取流地址，会自动生成推流地址和拉流地址，并存入缓存</br> 再次获取流地址，会自动更新推流地址和拉流地址，并更新缓存</br></p> </blockquote>",
     "success": {
@@ -564,7 +564,7 @@
     ],
     "type": "GET",
     "url": "/live/removeLiveInfo/{roomId}",
-    "title": "删除缓存流信息",
+    "title": "4.删除缓存流信息",
     "name": "removeLiveInfo",
     "description": "<blockquote> <p>删除缓存流信息，在主播直播完成之后，触犯该动作</br></p> </blockquote>",
     "success": {

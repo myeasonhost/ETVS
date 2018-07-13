@@ -13,7 +13,7 @@ public interface ILiveUrlService {
      * @apiVersion 1.0.0
      * @apiGroup live
      * @apiPermission Android/IOS
-     * @api {GET} /live/getPushUrl/{roomId} 获取推流地址
+     * @api {GET} /live/getPushUrl/{roomId} 1.获取推流地址
      * @apiName getPushUrl
      *
      *
@@ -29,7 +29,7 @@ public interface ILiveUrlService {
      * @apiVersion 1.0.0
      * @apiGroup live
      * @apiPermission Android/IOS
-     * @api {GET} /live/getPlayUrl/{roomId} 获取拉流地址
+     * @api {GET} /live/getPlayUrl/{roomId} 2.获取拉流地址
      * @apiName getPlayUrl
      *
      *
@@ -45,7 +45,7 @@ public interface ILiveUrlService {
      * @apiVersion 1.0.0
      * @apiGroup live
      * @apiPermission Android/IOS
-     * @api {GET} /live/getPlayUrlList 获取拉流地址列表
+     * @api {GET} /live/getPlayUrlList 3.获取拉流地址列表
      * @apiName getPlayUrlList
      *
      *
@@ -63,7 +63,7 @@ public interface ILiveUrlService {
      * @apiVersion 1.0.0
      * @apiGroup live
      * @apiPermission Android/IOS
-     * @api {GET} /live/removeLiveInfo/{roomId} 删除缓存流信息
+     * @api {GET} /live/removeLiveInfo/{roomId} 4.删除缓存流信息
      * @apiName removeLiveInfo
      *
      *

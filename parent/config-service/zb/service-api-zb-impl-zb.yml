@@ -64,23 +64,3 @@ spring:
     multipart:
       max-file-size: 20Mb
       max-request-size: 20Mb
-
-platfrom:
-  media:
-    host: 162.218.55.26:8899
-    regAccountMap:
-      url: http://${platfrom.media.host}/BetSvr/ssvr/RegAccount
-      username: test
-      password: test
-    rtmpUrl: http://${platfrom.media.host}/BetSvr/ssvr/GetRtmpUrl
-    recRecords: http://${platfrom.media.host}/BetSvr/ssvr/GetRecRecords
-    deleteRecFile: http://${platfrom.media.host}/BetSvr/ssvr/rec/delete
-
-  im:
-    host: 45.61.238.184:9679
-    regAccountMap:
-      url: http://${platfrom.im.host}/DBN/apis/auth.php
-      username: 1
-      password: 2
-    imUrl: http://${platfrom.im.host}/DBN/apis/address.php
-

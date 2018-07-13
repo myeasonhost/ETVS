@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Map;
 
 
-@Document(collection = "zb_t_room_plan")
+@Document(collection = "zb_t_room_plan_conf")
 public class ZbTRoomPlan implements Serializable {
     private static final long serialVersionUID = 1L;
 

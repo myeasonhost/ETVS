@@ -1,6 +1,5 @@
 package com.eason.api.zb;
 
-import com.eason.api.zb.model.MediaConfigModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;

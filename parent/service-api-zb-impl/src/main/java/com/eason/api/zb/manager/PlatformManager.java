@@ -2,8 +2,6 @@ package com.eason.api.zb.manager;
 
 import com.eason.api.common.util.HttpClientUtils;
 import com.eason.api.exception.ServiceException;
-import com.eason.api.zb.model.IMConfigModel;
-import com.eason.api.zb.model.MediaConfigModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

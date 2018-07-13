@@ -43,15 +43,6 @@ public class MessageEventHandler {
             clientInfo.setLastconnecteddate(nowTime);
             clientInfoRepository.save(clientInfo);
         }
-        Collection<SocketIONamespace> collection= server.getAllNamespaces();
-        for (SocketIONamespace socketIONamespace: collection){
-            System.out.println("s="+socketIONamespace.getName());
-        }
-        Collection<SocketIOClient> clients= server.getAllClients();
-        for (SocketIOClient client1: clients){
-            System.out.println("client1="+client1.getAllRooms());
-        }
-        System.out.println("client="+client.getNamespace().getName());
     }
 
     //添加@OnDisconnect事件，客户端断开连接时调用，刷新客户端信息

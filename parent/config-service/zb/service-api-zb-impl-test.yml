@@ -13,7 +13,7 @@ spring.datasource.username: qvod
 spring.datasource.password: fe624bdc97a31 
 spring.datasource.driver-class-name: com.mysql.jdbc.Driver
 
-spring.data.mongodb.uri:  mongodb://qvod:PGJ1AoZIQViooc0n@45.61.238.182:7081/admin
+spring.data.mongodb.uri:  mongodb://qvod:PGJ1AoZIQViooc0n@45.61.238.182:7081/qvod
 
 # REDIS (RedisProperties)
 # Redis数据库索引（默认为0）
@@ -64,23 +64,3 @@ spring:
     multipart:
       max-file-size: 20Mb
       max-request-size: 20Mb
-
-platfrom:
-  media:
-    host: 162.218.55.26:8899
-    regAccountMap:
-      url: http://${platfrom.media.host}/BetSvr/ssvr/RegAccount
-      username: test
-      password: test
-    rtmpUrl: http://${platfrom.media.host}/BetSvr/ssvr/GetRtmpUrl
-    recRecords: http://${platfrom.media.host}/BetSvr/ssvr/GetRecRecords
-    deleteRecFile: http://${platfrom.media.host}/BetSvr/ssvr/rec/delete
-
-  im:
-    host: 45.61.238.130:9679
-    regAccountMap:
-      url: http://${platfrom.im.host}/DBN/apis/auth.php
-      username: 1
-      password: 2
-    imUrl: http://${platfrom.im.host}/DBN/apis/address.php
-
