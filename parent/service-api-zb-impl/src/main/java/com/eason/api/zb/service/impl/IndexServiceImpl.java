@@ -41,7 +41,7 @@ public class IndexServiceImpl implements IIndexService {
 
     @RequestMapping(value = "/{category}/getIndexList/{position}/{pageSize}",method = RequestMethod.GET)
     @Override
-    public PageModel<IndexResponseVo> getIndexList(Integer userId, @PathVariable(value = "category") String category,@PathVariable(value = "position") Integer position,@PathVariable(value = "pageSize")  Integer pageSize)  throws ServiceException{
+    public PageModel<IndexResponseVo> getIndexList(@PathVariable(value = "category") String category,@PathVariable(value = "position") Integer position,@PathVariable(value = "pageSize")  Integer pageSize)  throws ServiceException{
         try {
             PageModel pageModel=new PageModel();
             List<IndexResponseVo> list = new ArrayList<>();
@@ -51,45 +51,31 @@ public class IndexServiceImpl implements IIndexService {
                 Pageable pageable = new PageRequest(position, pageSize, sort);
                 page=roomPlanDao.findAll(pageable);
             }else if ("2".equals(category)){ //收藏=2
-                Sort sort = new Sort(Sort.Direction.DESC,"orderField").and(new Sort(Sort.Direction.DESC,"incomeAmountToday"));
-                PageRequest pageable = new PageRequest(position, pageSize, sort);
-                page=roomPlanDao.findAll(pageable);
-            }else if ("3".equals(category)){ //最新=3
                 Sort sort = new Sort(Sort.Direction.DESC,"orderField").and(new Sort(Sort.Direction.DESC,"openTime"));
                 Pageable pageable = new PageRequest(position, pageSize, sort);
                 page=  roomPlanDao.findAll(pageable);
-            }else if ("4".equals(category)){ //付费=4
-                Sort sort = new Sort(Sort.Direction.DESC,"orderField").and(new Sort(Sort.Direction.DESC,"incomeAmountToday"));
-                Pageable pageable = new PageRequest(position, pageSize, sort);
-                List<String> roomTypes=new ArrayList<>();
-                roomTypes.add(ZbConstant.Room.Type.ticket.name());
-                roomTypes.add(ZbConstant.Room.Type.time.name());
-                roomTypes.add(ZbConstant.Room.Type.personal.name());
-                page= roomPlanDao.findByChargedRoom(roomTypes,pageable);
-            }else if ("5".equals(category)){ //游戏
-                Sort sort = new Sort(Sort.Direction.DESC,"orderField").and(new Sort(Sort.Direction.DESC,"incomeAmountToday"));
-                Pageable pageable = new PageRequest(position, pageSize, sort);
-                page=  roomPlanDao.findByRoomType(ZbConstant.Room.Type.game.name(),pageable);
             }else{
-               throw new ServiceException("首页列表只支持category=1，2，3，4，5类型");
+               throw new ServiceException("首页列表只支持category=1，2类型");
             }
             pageModel.setTotal(page.getTotalPages());
             page.getContent().forEach(zbTRoomPlan ->{
-
-                IndexResponseVo indexResponseVo=new IndexResponseVo(zbTRoomPlan.getRoomId(),1,"",zbTRoomPlan.getRoomTitle(),
-                        "",zbTRoomPlan.getOnlineUser(),zbTRoomPlan.getMachineUser(),zbTRoomPlan.getRoomBgPic()!=null?zbTRoomPlan.getRoomBgPic():"",
-                        zbTRoomPlan.getRoomStatus(),new Timestamp(zbTRoomPlan.getOpenTime().getTime()));
-
-                indexResponseVo.setIsCharge(0);  //0=不收费
+                IndexResponseVo indexResponseVo=new IndexResponseVo();
+                indexResponseVo.setRoomId(zbTRoomPlan.getRoomId());
+                indexResponseVo.setRoomPlanId(zbTRoomPlan.getPlanId());
+                indexResponseVo.setUserId(zbTRoomPlan.getUserId());
+                indexResponseVo.setUsername(zbTRoomPlan.getUsername());
+                indexResponseVo.setNickname(zbTRoomPlan.getNickname());
+                indexResponseVo.setAvatar(zbTRoomPlan.getAvatar());
+                indexResponseVo.setRoomTitle(zbTRoomPlan.getRoomTitle());
+                indexResponseVo.setOnlineUser(zbTRoomPlan.getOnlineUser()!=null?zbTRoomPlan.getOnlineUser():0);
+                indexResponseVo.setMachineUser(zbTRoomPlan.getMachineUser()!=null?zbTRoomPlan.getMachineUser():0);
                 indexResponseVo.setViewCount(zbTRoomPlan.getViewCount()!=null?zbTRoomPlan.getViewCount():0);
                 indexResponseVo.setWatchCount(zbTRoomPlan.getWatchCount()!=null?zbTRoomPlan.getWatchCount():0);
+                indexResponseVo.setRoomBackgroundImg(zbTRoomPlan.getRoomBgPic());
+                indexResponseVo.setRoomStatus(zbTRoomPlan.getRoomStatus());
+                indexResponseVo.setStartTime(new Timestamp(zbTRoomPlan.getOpenTime().getTime()));
 
                 list.add(indexResponseVo);
-
-                if ("4".equals(category) && indexResponseVo.getIsCharge()==0){
-                    list.remove(indexResponseVo);
-                }
-
             });
              pageModel.setTotal(1);
             pageModel.setRows(list);
@@ -104,8 +90,8 @@ public class IndexServiceImpl implements IIndexService {
     public List<BannerResponseVo> getBannerList( @PathVariable(value = "category") String category)  throws ServiceException{
         try {
             List<BannerResponseVo> list = new ArrayList<BannerResponseVo>();
-            if (!("1".equals(category) || "2".equals(category) || "3".equals(category) || "4".equals(category) || "5".equals(category))){
-                throw new ServiceException("首页列表只支持category=1，2，3，4，5类型");
+            if (!("1".equals(category) || "2".equals(category))){
+                throw new ServiceException("首页列表只支持category=1，2类型");
             }
 
             List<ZbTQvodBanners> bannerList=indexBannerDao.getByType(Integer.parseInt(category)+1);
@@ -122,8 +108,8 @@ public class IndexServiceImpl implements IIndexService {
     @Override
     public List<MsgNotificationResponseVo> getMsgNotification( @PathVariable(value = "category") String category) throws ServiceException{
         try {
-            if (!("1".equals(category) || "2".equals(category) || "3".equals(category) || "4".equals(category) || "5".equals(category))){
-                throw new ServiceException("首页列表只支持category=1，2，3，4，5类型");
+            if (!("1".equals(category) || "2".equals(category))){
+                throw new ServiceException("首页列表只支持category=1，2");
             }
             List<MsgNotificationResponseVo> list = new ArrayList<MsgNotificationResponseVo>();
             List<ZbTQvodNews> msgNotificationList=msgNotificationDao.getAll();

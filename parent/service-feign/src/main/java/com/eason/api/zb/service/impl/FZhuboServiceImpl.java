@@ -15,62 +15,7 @@ import java.util.List;
 @Component("zhuboServiceImpl")
 public class FZhuboServiceImpl implements FZhuboService {
     @Override
-    public List<ZhuboResponseVo> getZhuboList(Integer userId, Integer num) throws ServiceException {
-       throw new ServiceException();
-    }
-
-    @Override
-    public ZhuboResponseVo getZbDetail(Integer userId, Integer zbId) throws ServiceException {
-       throw new ServiceException();
-    }
-
-    @Override
-    public List<UserLevelRankResponseVo> getAttentionUserList(Integer zbId) throws ServiceException {
-       throw new ServiceException();
-    }
-
-    @Override
-    public List<UserResponseVo> getGiftUserList(Integer zbId, String category) throws ServiceException {
-       throw new ServiceException();
-    }
-
-    @Override
-    public ReadyPlayResponseVo getReadyPlayInfo(Integer userId, String token) throws ServiceException {
-       throw new ServiceException();
-    }
-
-    @Override
     public StartPlayResponseVo startPlay(Integer userId, StartPlayRequestVo startPlayRequestVo) throws ServiceException {
-       throw new ServiceException();
-    }
-
-    @Override
-    public ReadyPlayResponseVo getConfigInfo(Integer userId, String token) throws ServiceException {
         throw new ServiceException();
-    }
-
-    @Override
-    public StartPlayResponseVo changeRoom(Integer userId, StartPlayRequestVo startPlayRequestVo) throws ServiceException {
-        throw new ServiceException();
-    }
-
-    @Override
-    public String overPlay(Integer userId, Integer planId) throws ServiceException {
-       throw new ServiceException();
-    }
-
-    @Override
-    public String saveVideo(Integer userId, Integer planId) throws ServiceException {
-       throw new ServiceException();
-    }
-
-    @Override
-    public String getStat(Integer userId, Integer planId) throws ServiceException {
-        throw new ServiceException();
-    }
-
-    @Override
-    public String apply(Integer userId) throws ServiceException {
-       throw new ServiceException();
     }
 }

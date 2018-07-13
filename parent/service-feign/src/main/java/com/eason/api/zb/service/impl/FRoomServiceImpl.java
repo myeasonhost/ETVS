@@ -16,11 +16,6 @@ public class FRoomServiceImpl implements FRoomService {
     }
 
     @Override
-    public IsChargedResponseVo isCharged(Integer userId, Integer roomId) throws ServiceException {
-       throw new ServiceException();
-    }
-
-    @Override
     public String setRoomBackgroundImg(Integer userId, FileItemModel fileImg) throws ServiceException {
        throw new ServiceException();
     }

@@ -1,6 +1,7 @@
 package com.eason.api.zb.web;
 
 import com.eason.api.base.vo.response.ResponseVo;
+import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.service.FIndexService;
 import com.netflix.hystrix.exception.HystrixRuntimeException;
 import org.apache.commons.lang.StringUtils;
@@ -21,28 +22,12 @@ import java.util.HashMap;
 public class IndexControler  {
     @Autowired
     private FIndexService indexServiceImpl;
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
 
     @RequestMapping(value = "/{category}/getIndexList/{position}/{pageSize}",method = RequestMethod.GET)
-    public ResponseVo getIndexList(@PathVariable String category, @PathVariable Integer position, @PathVariable Integer pageSize, HttpServletRequest request) {
+    public ResponseVo getIndexList(@PathVariable String category, @PathVariable Integer position, @PathVariable Integer pageSize) {
         try {
-            Integer userId=null;
-            String api_token=request.getHeader("api_token");
-            if (StringUtils.isEmpty(api_token)){
-                api_token = request.getParameter("token");
-            }
-            if (StringUtils.isNotEmpty(api_token)){
-                BoundHashOperations<String, String, String> ops = stringRedisTemplate.boundHashOps("user_api_token");
-                String id = ops.get(api_token);
-                if (id == null) {
-                    userId=0;
-                }else{
-                    userId=Integer.parseInt(id);
-                }
-            }
             ResponseVo responseVo=new ResponseVo(0,"操作成功");
-            responseVo.setData(indexServiceImpl.getIndexList(userId,category,position,pageSize));
+            responseVo.setData(indexServiceImpl.getIndexList(category,position,pageSize));
             return responseVo;
         } catch (HystrixRuntimeException e) {
             ResponseVo responseVo = new ResponseVo(500, "服务器忙，请重试！");

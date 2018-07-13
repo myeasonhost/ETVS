@@ -261,7 +261,7 @@ define({ "api": [
     "url": "/index/{category}/getIndexList/{position}/{pageSize}",
     "title": "1.房间列表",
     "name": "getIndexList",
-    "description": "<blockquote> <p>房间分类：1=最热（默认）、2=收藏、3=最新、4=付费、5=游戏 </br> 【最热=1】：砖石数排序（大-小）,主播昵称、直播标题、房间类型（若普通房间收费模式不现实）、房间人数（真实人数和机器人数）、网络状态（API不提供）</br> 【最新=3】：主播开播时间（近-远）排序，主播昵称、房间类型、房间人数（真实人数和机器人数）、网络状态（API不提供）</br> 【收藏=2】：显示关注后的主播房间,顺序直播类型-录播类型</br> (1)直播类型=砖石数排序（大-小）,直播状态、房间人数、主播昵称、开播信息、网络状态、收费模式（普通房间不显示）</br> (2)录播类型=发布日期（近-远），被观看次数、收费价格（普通房间不显示）、主播昵称、开播信息</br> 【付费=4】：砖石数排序（大-小）,开播标题、房间类型、房间人数（真实人数和机器人数）、网络状态（API不提供）</br> 【游戏=5】：房间游戏投注数排序（大-小）,主播昵称、开播标题、游戏类型、参与人数（如上第二条解释）、网络状态（API不提供）</br> 没有这么多需求，默认就传category=1</p> </blockquote>",
+    "description": "<blockquote> <p>房间分类：1=最热（默认）、2=最新 </br> 没有这么多需求，默认就传category=1</p> </blockquote>",
     "success": {
       "fields": {
         "Success 200": [
@@ -290,8 +290,8 @@ define({ "api": [
             "group": "Success 200",
             "type": "Integer",
             "optional": false,
-            "field": "row.zbId",
-            "description": "<p>主播ID</p>"
+            "field": "row.userId",
+            "description": "<p>主播ID（用户ID）</p>"
           },
           {
             "group": "Success 200",
@@ -304,22 +304,22 @@ define({ "api": [
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "row.zbNickName",
-            "description": "<p>主播昵称</p>"
+            "field": "row.username",
+            "description": "<p>主播账号（用户名）</p>"
           },
           {
             "group": "Success 200",
             "type": "String",
             "optional": false,
-            "field": "row.zbHeadImg",
+            "field": "row.nickname",
+            "description": "<p>主播昵称（用户昵称）</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "row.avatar",
             "description": "<p>主播头像</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "row.zbLevel",
-            "description": "<p>主播等级</p>"
           },
           {
             "group": "Success 200",
@@ -327,13 +327,6 @@ define({ "api": [
             "optional": false,
             "field": "row.roomTitle",
             "description": "<p>房间标题</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "row.roomType",
-            "description": "<p>房间类型：'normal=普通房间','ticket=门票房间','time=时常房间','personal=私密房间','game=游戏房间'</p>"
           },
           {
             "group": "Success 200",
@@ -375,7 +368,7 @@ define({ "api": [
             "type": "Integer",
             "optional": false,
             "field": "row.roomStatus",
-            "description": "<p>直播状态： 1=直播中，2=未开播，3=回放中</p>"
+            "description": "<p>直播状态： 1=直播中（2=回放中）</p>"
           },
           {
             "group": "Success 200",
@@ -383,27 +376,6 @@ define({ "api": [
             "optional": false,
             "field": "row.startTime",
             "description": "<p>房间开播时间</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": true,
-            "field": "row.gameIcon",
-            "description": "<p>游戏图标</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "row.playUrl",
-            "description": "<p>录像回放地址</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Integer",
-            "optional": false,
-            "field": "row.isCharge",
-            "description": "<p>是否收费   0=不收费，1=收费</p>"
           }
         ]
       }

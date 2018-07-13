@@ -15,9 +15,6 @@ public interface FRoomService extends IRoomService {
     @RequestMapping(value = "/room/{roomId}/enterRoom", method = RequestMethod.GET)
     RoomResponseVo enterRoom(@RequestParam(value = "userId") Integer userId, @PathVariable(value = "roomId") Integer roomId) throws ServiceException;
 
-    @RequestMapping(value = "/room/{roomId}/isCharged", method = RequestMethod.GET)
-    IsChargedResponseVo isCharged(@RequestParam(value = "userId") Integer userId, @PathVariable(value = "roomId") Integer roomId) throws ServiceException;
-
     @RequestMapping(value = "/room/setRoomBackgroundImg", method = RequestMethod.POST)
     String setRoomBackgroundImg(@RequestParam(value = "userId") Integer userId,  @RequestBody FileItemModel fileImg) throws ServiceException;
 

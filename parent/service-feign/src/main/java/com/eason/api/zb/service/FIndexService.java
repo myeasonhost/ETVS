@@ -18,7 +18,7 @@ import java.util.List;
 @FeignClient(value = "service-api-zb-impl",fallback = FIndexServiceImpl.class )
 public interface FIndexService extends IIndexService {
     @RequestMapping(value = "/index/{category}/getIndexList/{position}/{pageSize}",method = RequestMethod.GET)
-    PageModel<IndexResponseVo> getIndexList(@RequestParam(value = "userId") Integer userId, @PathVariable(value = "category") String category, @PathVariable(value = "position") Integer position, @PathVariable(value = "pageSize") Integer pageSize) throws ServiceException;
+    PageModel<IndexResponseVo> getIndexList(@PathVariable(value = "category") String category, @PathVariable(value = "position") Integer position, @PathVariable(value = "pageSize") Integer pageSize) throws ServiceException;
 
     @RequestMapping(value = "/index/{category}/getBannerList",method = RequestMethod.GET)
     List<BannerResponseVo> getBannerList(@PathVariable(value = "category") String category) throws ServiceException;

@@ -91,28 +91,4 @@ public class ZhuboServiceImpl implements IZhuboService {
         }
     }
 
-    @Override
-    public List<ZhuboResponseVo> getZhuboList(Integer userId, Integer num) throws ServiceException {
-        return null;
-    }
-
-    @Override
-    public ZhuboResponseVo getZbDetail(Integer userId, Integer zbId) throws ServiceException {
-        return null;
-    }
-
-
-    @Override
-    public List<UserResponseVo> getGiftUserList(Integer zbId, String category) throws ServiceException {
-        return null;
-    }
-
-
-
-
-    @Override
-    public String overPlay(Integer userId, Integer planId) throws ServiceException {
-        return null;
-    }
-
 }

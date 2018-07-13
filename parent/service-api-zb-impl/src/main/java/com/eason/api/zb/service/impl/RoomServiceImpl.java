@@ -37,12 +37,6 @@ public class RoomServiceImpl implements IRoomService {
         return null;
     }
 
-    @RequestMapping(value = "/{roomId}/isCharged", method = RequestMethod.GET)
-    @Override
-    public IsChargedResponseVo isCharged(Integer userId, Integer roomId) throws ServiceException {
-        return null;
-    }
-
     @RequestMapping(value = "/setRoomBackgroundImg", method = RequestMethod.POST)
     @Override
     public String setRoomBackgroundImg(Integer userId,  @RequestBody FileItemModel fileImg) throws ServiceException {

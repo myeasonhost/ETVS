@@ -13,7 +13,7 @@ import java.util.List;
 @Component("indexServiceImpl")
 public class FIndexServiceImpl implements FIndexService {
     @Override
-    public PageModel<IndexResponseVo> getIndexList(Integer userId, String category, Integer position, Integer pageSize) throws ServiceException {
+    public PageModel<IndexResponseVo> getIndexList(String category, Integer position, Integer pageSize) throws ServiceException {
        throw new ServiceException();
     }
 
