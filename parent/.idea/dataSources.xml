@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="qvod@192.168.0.109" uuid="6c1859c8-155a-4f33-9baa-786d716e68ed">
+    <data-source source="LOCAL" name="zb@localhost" uuid="4f800a39-64f8-4a95-be96-2898d731f23a">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://192.168.0.109:3306/qvod</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/zb</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

@@ -1,7 +1,6 @@
 package com.eason.api.zb;
 
-import com.eason.api.zb.cache.ZbTRoomPlan;
-import com.eason.api.zb.dao.RoomPlanDao;
+import com.eason.api.zb.dao.mongo.RoomPlanDao;
 import com.eason.api.zb.model.RedisFactory;
 import com.eason.api.zb.model.ZbConstant;
 import org.junit.Test;
@@ -96,17 +95,7 @@ public class RedisTests {
 
     @Test
     public void testRoomPlan() {
-        ZbTRoomPlan roomPlan=new ZbTRoomPlan();
-        roomPlan.setPlanId(10);
-        roomPlan.setRoomTitle("卤蛋的直播间");
-        roomPlan.setRoomType(ZbConstant.Room.Type.ticket.name());
-        roomPlan.setOpenTime(new Timestamp(System.currentTimeMillis()));
-        roomPlan.setCloseTime(new Timestamp(System.currentTimeMillis()+30000));
-        Map<String,Object> map=new HashMap<>();
-        map.put("key1","value1");
-        map.put("key2","value2");
-        roomPlan.setRoomSet(map);
-        roomPlanDao.save(roomPlan);
+
     }
 
     @Test

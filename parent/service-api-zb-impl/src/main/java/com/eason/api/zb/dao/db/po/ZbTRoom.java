@@ -1,4 +1,4 @@
-package com.eason.api.zb.po;
+package com.eason.api.zb.dao.db.po;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -20,7 +20,11 @@ public class ZbTRoom implements Serializable {
 	@Column(name="room_id")
 	private Integer roomId;
 
-	private Timestamp create_Time;
+	@Column(name="create_time")
+	private Timestamp create_time;
+
+	@Column(name="update_time")
+	private Timestamp update_time;
 
 	@Column(name="is_video")
 	private Integer isVideo;
@@ -43,11 +47,9 @@ public class ZbTRoom implements Serializable {
 	@Column(name="room_title")
 	private String roomTitle;
 
-	@Column(name="`total_activity_time`")
-	private Integer total_ActivityTime;
 
-	@Column(name="zb_id")
-	private Integer zbId;
+	@Column(name="user_id")
+	private Integer userId;
 
 	public ZbTRoom() {
 	}
@@ -58,14 +60,6 @@ public class ZbTRoom implements Serializable {
 
 	public void setRoomId(Integer roomId) {
 		this.roomId = roomId;
-	}
-
-	public Timestamp getCreate_Time() {
-		return this.create_Time;
-	}
-
-	public void setCreate_Time(Timestamp create_Time) {
-		this.create_Time = create_Time;
 	}
 
 	public Integer getIsVideo() {
@@ -124,20 +118,27 @@ public class ZbTRoom implements Serializable {
 		this.roomTitle = roomTitle;
 	}
 
-	public Integer getTotal_ActivityTime() {
-		return this.total_ActivityTime;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setTotal_ActivityTime(Integer total_ActivityTime) {
-		this.total_ActivityTime = total_ActivityTime;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
-	public Integer getZbId() {
-		return this.zbId;
+	public Timestamp getCreate_time() {
+		return create_time;
 	}
 
-	public void setZbId(Integer zbId) {
-		this.zbId = zbId;
+	public void setCreate_time(Timestamp create_time) {
+		this.create_time = create_time;
 	}
 
+	public Timestamp getUpdate_time() {
+		return update_time;
+	}
+
+	public void setUpdate_time(Timestamp update_time) {
+		this.update_time = update_time;
+	}
 }

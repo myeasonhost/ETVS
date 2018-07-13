@@ -1,9 +1,8 @@
-package com.eason.api.zb.po;
+package com.eason.api.zb.dao.db.po;
 
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.List;
 
 
 /**

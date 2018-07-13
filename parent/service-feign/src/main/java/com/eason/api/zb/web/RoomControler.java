@@ -64,11 +64,26 @@ public class RoomControler {
         }
     }
 
-    @RequestMapping(value = "/{roomType}/getRoomSet", method = RequestMethod.GET)
-    public ResponseVo getRoomSet(@PathVariable String roomType) {
+    @RequestMapping(value = "/createRoom", method = RequestMethod.GET)
+    public ResponseVo createRoom(HttpServletRequest request) {
         try {
+            Integer userId=null;
+            String api_token=request.getHeader("token");
+            if (StringUtils.isEmpty(api_token)){
+                api_token = request.getParameter("token");
+            }
+            String id = stringRedisTemplate.opsForValue().get("token:"+api_token);
+            if (id == null) {
+                throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
+            }else{
+                userId=Integer.parseInt(id);
+            }
             ResponseVo responseVo = new ResponseVo(0, "操作成功");
-            responseVo.setData(roomServiceImpl.getRoomSet(roomType));
+            responseVo.setData(roomServiceImpl.createRoom(userId));
+            return responseVo;
+        } catch (ServiceException e) {
+            ResponseVo responseVo = new ResponseVo(401, e.getMessage());
+            responseVo.setData(new HashMap<>());
             return responseVo;
         } catch (HystrixRuntimeException e) {
             ResponseVo responseVo = new ResponseVo(500, "服务器忙，请重试！");
@@ -81,32 +96,28 @@ public class RoomControler {
         }
     }
 
-    @RequestMapping(value = "/{roomId}/setRoomBackgroundImg", method = RequestMethod.POST)
-    public ResponseVo setRoomBackgroundImg(HttpServletRequest request,@PathVariable Integer roomId, @RequestParam(value = "roomBackgroundImg", required = true) MultipartFile img) {
+
+    @RequestMapping(value = "/setRoomBackgroundImg", method = RequestMethod.POST)
+    public ResponseVo setRoomBackgroundImg(HttpServletRequest request,@RequestParam(value = "roomBackgroundImg", required = true) MultipartFile img) {
         ResponseVo responseVo = null;
         try {
             Integer userId=null;
-            String api_token=request.getHeader("api_token");
+            String api_token=request.getHeader("token");
             if (StringUtils.isEmpty(api_token)){
                 api_token = request.getParameter("token");
             }
-            if (StringUtils.isNotEmpty(api_token)){
-                BoundHashOperations<String, String, String> ops = stringRedisTemplate.boundHashOps("user_api_token");
-                String id = ops.get(api_token);
-                if (id == null) {
-                    throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
-                }else{
-                    userId=Integer.parseInt(id);
-                }
+            String id = stringRedisTemplate.opsForValue().get("token:"+api_token);
+            if (id == null) {
+                throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
             }else{
-                throw new ServiceException("您未登陆");
+                userId=Integer.parseInt(id);
             }
             responseVo = new ResponseVo(0, "操作成功");
             FileItemModel fileImg = new FileItemModel();
             fileImg.setFileName(System.currentTimeMillis() + "-" + img.getOriginalFilename());
             fileImg.setContent(img.getBytes());
             fileImg.setMimeType(img.getContentType());
-            responseVo.setData(roomServiceImpl.setRoomBackgroundImg(userId,roomId, fileImg));
+            responseVo.setData(roomServiceImpl.setRoomBackgroundImg(userId,fileImg));
         } catch (ServiceException e) {
             responseVo = new ResponseVo(401, e.getMessage());
             responseVo.setData(new HashMap<>());
@@ -150,63 +161,6 @@ public class RoomControler {
 //            MediaResponseVo mediaResponseVo=new MediaResponseVo("1", pushUrl, playUrl,api_token);
 //            roomResponseVo.setMedia(mediaResponseVo);
 //            responseVo.setData(roomResponseVo);
-            return responseVo;
-        } catch (ServiceException e) {
-            ResponseVo responseVo = new ResponseVo(401, e.getMessage());
-            responseVo.setData(new HashMap<>());
-            return responseVo;
-        } catch (HystrixRuntimeException e) {
-            ResponseVo responseVo = new ResponseVo(500, "服务器忙，请重试！");
-            responseVo.setData(new HashMap<>());
-            return responseVo;
-        } catch (Exception e) {
-            ResponseVo responseVo = new ResponseVo(500, e.getMessage());
-            responseVo.setData(new HashMap<>());
-            return responseVo;
-        }
-    }
-
-    @RequestMapping(value = "/{roomId}/backRoom/{userId}", method = RequestMethod.GET)
-    public ResponseVo backRoom(@PathVariable Integer userId, @PathVariable Integer roomId) {
-        try {
-            ResponseVo responseVo = new ResponseVo(0, "操作成功");
-            responseVo.setData(roomServiceImpl.backRoom(userId, roomId));
-            //退出房间，清除流缓存
-            this.liveUrlServiceImpl.removeLiveInfo(roomId+"");
-            return responseVo;
-        } catch (HystrixRuntimeException e) {
-            ResponseVo responseVo = new ResponseVo(500, "服务器忙，请重试！");
-            responseVo.setData(new HashMap<>());
-            return responseVo;
-        } catch (Exception e) {
-            ResponseVo responseVo = new ResponseVo(500, e.getMessage());
-            responseVo.setData(new HashMap<>());
-            return responseVo;
-        }
-    }
-
-    @RequestMapping(value = "/getRoomWaterMarkImg", method = RequestMethod.GET)
-    public ResponseVo getRoomWaterMarkImg(HttpServletRequest request) {
-        try {
-            Integer userId = null;
-            String api_token = request.getHeader("api_token");
-            if (StringUtils.isEmpty(api_token)) {
-                api_token = request.getParameter("token");
-            }
-            if (StringUtils.isNotEmpty(api_token)) {
-                BoundHashOperations<String, String, String> ops = stringRedisTemplate.boundHashOps("user_api_token");
-                String id = ops.get(api_token);
-                if (id == null) {
-                    throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
-                } else {
-                    userId = Integer.parseInt(id);
-                }
-            } else {
-                throw new ServiceException("您未登陆");
-            }
-
-            ResponseVo responseVo = new ResponseVo(0, "操作成功");
-            responseVo.setData(roomServiceImpl.getRoomWaterMarkImg(userId));
             return responseVo;
         } catch (ServiceException e) {
             ResponseVo responseVo = new ResponseVo(401, e.getMessage());

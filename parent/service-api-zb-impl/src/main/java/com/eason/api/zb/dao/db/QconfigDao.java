@@ -1,10 +1,8 @@
-package com.eason.api.zb.dao;
+package com.eason.api.zb.dao.db;
 
-import com.eason.api.zb.po.ZbTQvodConfigs;
-import com.eason.api.zb.po.ZbUcUser;
+import com.eason.api.zb.dao.db.po.ZbTQvodConfigs;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface QconfigDao extends JpaRepository<ZbTQvodConfigs, Integer> {
     @Query("select config FROM ZbTQvodConfigs config where config.aliasName=?1")

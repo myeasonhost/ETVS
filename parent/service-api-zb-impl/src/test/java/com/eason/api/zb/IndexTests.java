@@ -1,7 +1,7 @@
 package com.eason.api.zb;
 
-import com.eason.api.zb.dao.IndexBannerDao;
-import com.eason.api.zb.dao.MsgNotificationDao;
+import com.eason.api.zb.dao.db.IndexBannerDao;
+import com.eason.api.zb.dao.db.MsgNotificationDao;
 import com.eason.api.zb.model.SaveMongoEventListener;
 import org.junit.Test;
 import org.junit.runner.RunWith;

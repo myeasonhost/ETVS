@@ -3,7 +3,6 @@ package com.eason.api.zb.service;
 import com.eason.api.zb.IZhuboService;
 import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.service.impl.FZhuboServiceImpl;
-import com.eason.api.zb.vo.room.RoomStatResponseVo;
 import com.eason.api.zb.vo.user.UserLevelRankResponseVo;
 import com.eason.api.zb.vo.user.UserResponseVo;
 import com.eason.api.zb.vo.zhubo.ReadyPlayResponseVo;
@@ -49,7 +48,7 @@ public interface FZhuboService extends IZhuboService {
     String saveVideo(@RequestParam(value = "userId") Integer userId, @PathVariable(value = "planId") Integer planId) throws ServiceException;
 
     @RequestMapping(value = "/zhubo/getStat/{planId}", method = RequestMethod.GET)
-    RoomStatResponseVo getStat(@RequestParam(value = "userId") Integer userId, @PathVariable(value = "planId") Integer planId) throws ServiceException;
+    String getStat(@RequestParam(value = "userId") Integer userId, @PathVariable(value = "planId") Integer planId) throws ServiceException;
 
     @RequestMapping(value = "/zhubo/apply", method = RequestMethod.GET)
     String apply(@RequestParam(value = "userId") Integer userId) throws ServiceException;

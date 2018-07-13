@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -120,8 +121,9 @@ public class UserServiceImpl implements IUserService {
                         userInfoPo.setPhone(request.getPhone());
                         userInfoPo.setPassword(request.getPassword());
                         userInfoPo.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-
+                        userInfoPo.setDeposit(new BigDecimal(0.0));
                         userInfoPo.setStatus((byte)1);//-1=封号 0=删除    1=已注册
+
                         userMapper.insert(userInfoPo);
                         //(2)验证码匹配 0为不匹配 1为匹配
                         verCode.setVerResult(1);
@@ -455,10 +457,14 @@ public class UserServiceImpl implements IUserService {
             responseVo.setUserId(userId);
             responseVo.setUsername(userInfoPo.getUsername());
             responseVo.setNickname(userInfoPo.getNickname());
-            responseVo.setDeposit(userInfoPo.getDeposit().doubleValue());
+            if (userInfoPo.getDeposit()==null){
+                responseVo.setDeposit(0.0);
+            }else{
+                responseVo.setDeposit(userInfoPo.getDeposit().doubleValue());
+            }
             responseVo.setPhone(userInfoPo.getPhone());
             responseVo.setBirthday(userInfoPo.getBirthday());
-            responseVo.setSignage(userInfoPo.getSignage());
+            responseVo.setSignature(userInfoPo.getSignature());
             responseVo.setAvatar(userInfoPo.getAvatar());
             responseVo.setLocation(userInfoPo.getLocation());
             responseVo.setLevel(userInfoPo.getLevel());

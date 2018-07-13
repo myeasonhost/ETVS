@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class StartPlayResponseVo implements Serializable {
     private Integer planId;
     private Integer roomId;
-    private Integer roomStatus;   //0=创建，1=直播中，2=未开播，3=回放中
     private String result;
 
     public Integer getPlanId() {
@@ -14,14 +13,6 @@ public class StartPlayResponseVo implements Serializable {
 
     public void setPlanId(Integer planId) {
         this.planId = planId;
-    }
-
-    public Integer getRoomStatus() {
-        return roomStatus;
-    }
-
-    public void setRoomStatus(Integer roomStatus) {
-        this.roomStatus = roomStatus;
     }
 
     public String getResult() {

@@ -2,7 +2,6 @@ package com.eason.api.zb.service.impl;
 
 import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.service.FZhuboService;
-import com.eason.api.zb.vo.room.RoomStatResponseVo;
 import com.eason.api.zb.vo.user.UserLevelRankResponseVo;
 import com.eason.api.zb.vo.user.UserResponseVo;
 import com.eason.api.zb.vo.zhubo.ReadyPlayResponseVo;
@@ -66,7 +65,7 @@ public class FZhuboServiceImpl implements FZhuboService {
     }
 
     @Override
-    public RoomStatResponseVo getStat(Integer userId, Integer planId) throws ServiceException {
+    public String getStat(Integer userId, Integer planId) throws ServiceException {
         throw new ServiceException();
     }
 

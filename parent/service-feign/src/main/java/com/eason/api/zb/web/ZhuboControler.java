@@ -211,20 +211,15 @@ public class ZhuboControler {
     public ResponseVo startPlay(HttpServletRequest request,  @RequestBody  StartPlayRequestVo startPlayRequestVo) {
         try {
             Integer userId=null;
-            String api_token=request.getHeader("api_token");
+            String api_token=request.getHeader("token");
             if (StringUtils.isEmpty(api_token)){
                 api_token = request.getParameter("token");
             }
-            if (StringUtils.isNotEmpty(api_token)){
-                BoundHashOperations<String, String, String> ops = stringRedisTemplate.boundHashOps("user_api_token");
-                String id = ops.get(api_token);
-                if (id == null) {
-                    throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
-                }else{
-                    userId=Integer.parseInt(id);
-                }
+            String id = stringRedisTemplate.opsForValue().get("token:"+api_token);
+            if (id == null) {
+                throw new ServiceException("您的账号已在异地登陆，请您重新登陆");
             }else{
-                throw new ServiceException("您未登陆");
+                userId=Integer.parseInt(id);
             }
 
             ResponseVo responseVo = new ResponseVo(0, "操作成功");

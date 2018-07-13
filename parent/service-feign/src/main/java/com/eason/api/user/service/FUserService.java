@@ -12,7 +12,7 @@ import com.eason.api.service.user.vo.register.RegisterResponseVo;
 import com.eason.api.service.user.vo.user.UserDetailResponseVo;
 import com.eason.api.service.user.vo.user.UserInfoRequestVo;
 import com.eason.api.service.user.vo.user.UserInfoResponseVo;
-import com.eason.api.zb.service.impl.FUserServiceImpl;
+import com.eason.api.user.service.impl.FUserServiceImpl;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

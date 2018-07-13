@@ -1,9 +1,10 @@
 package com.eason.api.zb;
 
+import com.eason.api.base.vo.model.FileItemModel;
 import com.eason.api.exception.ServiceException;
 import com.eason.api.zb.vo.room.IsChargedResponseVo;
+import com.eason.api.zb.vo.room.RoomInfoResponseVo;
 import com.eason.api.zb.vo.room.RoomResponseVo;
-import com.eason.api.zb.vo.room.RoomStatResponseVo;
 
 /**
  * @apiDefine room 房间API
@@ -65,35 +66,6 @@ public interface IRoomService {
      */
     public RoomResponseVo enterRoom(Integer userId, Integer roomId) throws ServiceException;
 
-    /**
-     * @apiVersion 1.0.0
-     * @apiGroup room
-     * @apiPermission Android/IOS
-     * @api {GET} /room/{roomId}/backRoom/{userId} 退出房间
-     * @apiName backRoom
-     * @apiDescription
-     * > 房间API - 退出房间</br>
-     * > 主播主动结束退出直播</br>
-     * > （1）房间id验证，当前房间是否在直播中</br>
-     * > （2）获取缓存该房间场次的信息，收益做账统计，存储到DB</br>
-     * > （3）清除该房间场次信息缓存</br>
-     * > （4）更改房间状态status=1（直播中）—>2（未开播）</br>
-     * > （5）返回统计信息</br>
-     *
-     * @apiSuccess {String} result 	退房成功或者失败
-     * @apiSuccess {Integer} statId  记录统计ID
-     * @apiSuccess {Integer} planId  本场次ID
-     * @apiSuccess {Long} activityTime  直播时长
-     * @apiSuccess {Integer} onlineUser  房间当前在线用户
-     * @apiSuccess {Integer} machineUser 房间机器人用户
-     * @apiSuccess {Integer} incomeAmount  累计收益
-     * @apiSuccess {Integer} attentionCount  累计粉丝
-     * @apiSuccess {Integer} viewCount  累计观看次数
-     * @apiSuccess {Integer} giftCount  累计收礼数
-     * @apiSuccess {Integer} bombScreenCount  累计飞屏数
-     */
-    public RoomStatResponseVo backRoom(Integer userId, Integer roomId) throws  ServiceException;
-
 
     /**
      * @apiVersion 1.0.0
@@ -142,5 +114,35 @@ public interface IRoomService {
      */
     public IsChargedResponseVo isCharged(Integer userId, Integer roomId) throws ServiceException;
 
+
+    /**
+     * @apiVersion 1.0.0
+     * @apiGroup room
+     * @apiPermission Android/IOS
+     * @api {POST} /room/setRoomBackgroundImg?token=xxxxxx  1.设置房间直播封面
+     * @apiName setRoomBackgroundImg
+     * @apiDescription > 进入主播开播界面，设置直播房间封面</br>
+     *
+     * @apiParam {byte[]} roomBackgroundImg  房间背景图
+     * @apiSuccess {String} imgUrl 	上传地址
+     */
+    public String setRoomBackgroundImg(Integer userId, FileItemModel fileImg) throws ServiceException;
+
+    /**
+     * @apiVersion 1.0.0
+     * @apiGroup room
+     * @apiPermission Android/IOS
+     * @api {GET} /room/createRoom?token=xxxxxx  2.创建房间
+     * @apiName createRoom
+     * @apiDescription >创建房间，如果有，返回原来的房间设置的属性</br>
+     *
+     *
+     * @apiSuccess {Integer} roomId  房间ID
+     * @apiSuccess {String} roomTitle 房间标题
+     * @apiSuccess {String} roomBgPic 房间封面
+     * @apiSuccess {Integer} roomStatus 房间状态
+     * @apiSuccess {String} result 提示信息
+     */
+    public RoomInfoResponseVo createRoom(Integer userId) throws ServiceException;
 
 }

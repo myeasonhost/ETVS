@@ -1,6 +1,6 @@
-package com.eason.api.zb.dao;
+package com.eason.api.zb.dao.mongo;
 
-import com.eason.api.zb.cache.ZbTRoomPlan;
+import com.eason.api.zb.dao.mongo.po.ZbTRoomPlan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -20,6 +20,6 @@ public interface RoomPlanDao extends MongoRepository<ZbTRoomPlan, BigInteger>, P
     Page<ZbTRoomPlan> findByRoomType(String roomType, Pageable pageable);
     @Query("{'roomId': ?#{[0]}}")
     ZbTRoomPlan findByRoomId(Integer roomId);
-    @Query("{'zbId': ?#{[0]}}")
-    ZbTRoomPlan findByZbId(Integer zbId);
+    @Query("{'userId': ?#{[0]}}")
+    ZbTRoomPlan findByUserId(Integer userId);
 }

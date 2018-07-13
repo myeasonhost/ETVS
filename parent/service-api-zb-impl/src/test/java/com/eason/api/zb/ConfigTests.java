@@ -1,8 +1,6 @@
 package com.eason.api.zb;
 
-import com.eason.api.zb.dao.UcUserDao;
 import com.eason.api.zb.model.MediaConfigModel;
-import com.eason.api.zb.po.ZbUcUser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -17,8 +15,6 @@ public class ConfigTests {
     @Autowired
     private MediaConfigModel mediaConfigModel;
 
-    @Autowired
-    private UcUserDao ucUserDao;
 
 
     @Test
@@ -32,8 +28,7 @@ public class ConfigTests {
 
     @Test
     public void testZhubo() {
-        ZbUcUser user=ucUserDao.findByZbId(19);
-        System.out.println(user);
+
     }
 
 }

@@ -1,4 +1,4 @@
-package com.eason.api.zb.po;
+package com.eason.api.zb.dao.db.po;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

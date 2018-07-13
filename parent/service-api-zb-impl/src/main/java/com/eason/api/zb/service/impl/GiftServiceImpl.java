@@ -1,12 +1,11 @@
 package com.eason.api.zb.service.impl;
 
-import com.eason.api.zb.dao.GiftListDao;
-import com.eason.api.zb.po.ZbTGiftList;
+import com.eason.api.zb.dao.db.GiftListDao;
+import com.eason.api.zb.dao.db.po.ZbTGiftList;
 import com.eason.api.zb.IGiftService;
 import com.eason.api.zb.vo.gift.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
