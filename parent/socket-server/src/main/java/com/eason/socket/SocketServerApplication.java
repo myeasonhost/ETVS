@@ -5,8 +5,15 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.HandshakeData;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.annotation.SpringAnnotationScanner;
+import com.corundumstudio.socketio.store.RedissonStoreFactory;
+import com.eason.socket.model.RedissonProperties;
+import com.eason.socket.model.SocketProperties;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,17 +27,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class SocketServerApplication {
     private static Logger logger = LoggerFactory.getLogger(SocketServerApplication.class);
 
-    @Value("${wss.server.host}")
-    private String host;
+    @Autowired
+    private RedissonProperties redissonProperties;
 
-    @Value("${wss.server.port}")
-    private Integer port;
+    @Autowired
+    private SocketProperties socketProperties;
 
     @Bean
     public SocketIOServer socketIOServer() {
         Configuration config = new Configuration();
-        config.setHostname(host);
-        config.setPort(port);
+        config.setHostname(socketProperties.getHost());
+        config.setPort(socketProperties.getPort());
 
         //该处可以用来进行身份验证
         config.setAuthorizationListener(new AuthorizationListener() {
@@ -43,8 +50,16 @@ public class SocketServerApplication {
                 return true;
             }
         });
+        Config redissonConfig = new Config();
+        //redissonConfig.useSingleServer().setAddress(SINGLE_SERVER);
+//        redissonConfig.useClusterServers().addNodeAddress("redis://192.168.0.109:6379");
+        redissonConfig.useSingleServer().setAddress(redissonProperties.getAddress());
+        redissonConfig.useSingleServer().setPassword(redissonProperties.getPassword());
+        RedissonClient redisson = Redisson.create(redissonConfig);
+        config.setStoreFactory(new RedissonStoreFactory(redisson));
 
         final SocketIOServer server = new SocketIOServer(config);
+
         return server;
     }
 

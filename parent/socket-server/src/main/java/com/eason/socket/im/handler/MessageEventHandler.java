@@ -11,11 +11,14 @@ import com.eason.socket.im.dao.ClientInfoRepository;
 import com.eason.socket.im.po.ClientInfo;
 import com.eason.socket.im.po.Room;
 import com.eason.socket.im.protocol.MessageInfo;
+import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class MessageEventHandler {
@@ -33,29 +36,35 @@ public class MessageEventHandler {
     //方便后面发送消息时查找到对应的目标client,
     @OnConnect
     public void onConnect(SocketIOClient client) {
-        String clientId = client.getHandshakeData().getSingleUrlParam("clientid");
-        ClientInfo clientInfo = clientInfoRepository.findClientByclientid(clientId);
-        if (clientInfo != null) {
-            Date nowTime = new Date(System.currentTimeMillis());
-            clientInfo.setConnected((short) 1);
-            clientInfo.setMostsignbits(client.getSessionId().getMostSignificantBits());
-            clientInfo.setLeastsignbits(client.getSessionId().getLeastSignificantBits());
-            clientInfo.setLastconnecteddate(nowTime);
-            clientInfoRepository.save(clientInfo);
-        }
+        String sessionId = client.getSessionId().toString();
+        client.set("sessionId", sessionId);
+        client.set("mostSignificantBits",client.getSessionId().getMostSignificantBits());
+        client.set("leastSignificantBits",client.getSessionId().getLeastSignificantBits());
+        client.set("connectionTime", DateFormatUtils.format(new Date(),DateFormatUtils.ISO_DATETIME_FORMAT.getPattern()));
+        String token=client.getHandshakeData().getSingleUrlParam("token");
+        client.set("token",token);
+        System.out.println(sessionId+" connecting..."+client.get("sessionId"));
+
     }
 
     //添加@OnDisconnect事件，客户端断开连接时调用，刷新客户端信息
     @OnDisconnect
     public void onDisconnect(SocketIOClient client) {
-        String clientId = client.getHandshakeData().getSingleUrlParam("clientid");
-        ClientInfo clientInfo = clientInfoRepository.findClientByclientid(clientId);
-        if (clientInfo != null) {
-            clientInfo.setConnected((short) 0);
-            clientInfo.setMostsignbits(null);
-            clientInfo.setLeastsignbits(null);
-            clientInfoRepository.save(clientInfo);
-        }
+        String sessionId = client.getSessionId().toString();
+        System.out.println(sessionId+" disconnecting..."+client.get("sessionId"));
+        client.del("sessionId");
+        client.del("mostSignificantBits");
+        client.del("leastSignificantBits");
+        client.del("connectionTime");
+        client.del("token");
+    }
+
+    @OnEvent(value = "login")
+    public String login(SocketIOClient client, AckRequest request) {
+        System.out.println("登陆成功");
+        server.getClient(new UUID(client.getSessionId().getMostSignificantBits(),client.getSessionId().getLeastSignificantBits()))
+                .sendEvent("login", "{'aaa':'bbb'}");
+        return "登陆成功";
     }
 
     @OnEvent(value = "createRoom")

@@ -11,18 +11,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ConfigTests {
-    @Autowired
-    private MediaConfigModel mediaConfigModel;
-
-
 
     @Test
     public void testConfig() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(mediaConfigModel.getRecRecords());
-        System.out.println(mediaConfigModel.getRtmpUrl());
-        mediaConfigModel.getRegAccountMap().remove("url");
-        System.out.println("mapProps: " + objectMapper.writeValueAsString(mediaConfigModel.getRegAccountMap()));
+
     }
 
     @Test
