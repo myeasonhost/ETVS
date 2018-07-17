@@ -1,6 +1,8 @@
 package com.eason.socket.model;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 @ConfigurationProperties(prefix = "socket.server")
 public class SocketProperties {
 
