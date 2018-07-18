@@ -11,6 +11,7 @@ import com.eason.socket.im.dao.ClientInfoRepository;
 import com.eason.socket.im.po.ClientInfo;
 import com.eason.socket.im.po.Room;
 import com.eason.socket.im.protocol.MessageInfo;
+import com.eason.socket.im.protocol.UserEnterRoomInfo;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class MessageEventHandler {
         client.set("connectionTime", DateFormatUtils.format(new Date(),DateFormatUtils.ISO_DATETIME_FORMAT.getPattern()));
         String token=client.getHandshakeData().getSingleUrlParam("token");
         client.set("token",token);
-        System.out.println(sessionId+" connecting..."+client.get("sessionId"));
+        System.out.println(sessionId+" connecting..."+client.getAllRooms());
 
     }
 
@@ -73,6 +74,15 @@ public class MessageEventHandler {
         MessageInfo sendData = new MessageInfo();
         sendData.setMsgContent("聊天室创建成功");
         chatNamespace.getBroadcastOperations().sendEvent("sendMsg",sendData);
+    }
+
+    @OnEvent(value = "enterRoomMsg")
+    public void enterRoomMsg(SocketIOClient client, AckRequest request, UserEnterRoomInfo userEnterRoomInfo) {
+        client.joinRoom(userEnterRoomInfo.getRoomId());
+//        SocketIONamespace chatNamespace=server.addNamespace("/"+room.getRoomName());
+//        MessageInfo sendData = new MessageInfo();
+//        sendData.setMsgContent("聊天室创建成功");
+//        chatNamespace.getBroadcastOperations().sendEvent("sendMsg",sendData);
     }
 
     @OnEvent(value = "destoryRoom")
